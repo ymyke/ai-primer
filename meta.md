@@ -1,5 +1,9 @@
 # AI Primer — Meta & Guidelines
 
+## Review Panel
+
+See [panel.md](panel.md) — content panel (what to teach, how to teach it) and fact-check panel (technical accuracy).
+
 ## Target Audience
 
 People *using* AI systems, not people building them. Average white-collar workers — comfortable with office software, chatbots, search engines, and similar tools. No programming background assumed.
