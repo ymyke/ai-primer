@@ -7,7 +7,7 @@
 ## 1. The Plain LLM — The Foundation
 
 ```
-        "What is the capital of France?"
+        "The capital of France is"
                        │
                        ▼
               ┌───────────────┐
@@ -18,7 +18,7 @@
                     "Paris."
 ```
 
-A Large Language Model is, at its core, a probability machine: it computes the most likely next word, token by token. No memory, no knowledge updates after training, no logic in the classical sense — just extraordinarily good pattern recognition over language.
+A Large Language Model is, at its core, a text continuation engine: given some text, it produces the most likely next piece of text, token by token. No memory, no knowledge updates after training, no logic in the classical sense — just extraordinarily good pattern recognition over language. It doesn't "answer questions" — it continues text. That it *appears* to answer questions is because a question followed by a good answer is the most likely continuation.
 
 **Important:** A single LLM call is *stateless*. It knows nothing about previous calls. This has consequences for everything that follows.
 
@@ -112,6 +112,8 @@ messages: [
 ```
 
 The "system" message sets behavior (more on that next). The "user" and "assistant" messages are the conversation turns. The roles serve a practical purpose: they let the model distinguish instructions to follow (system) from input to respond to (user) from its own prior responses to stay consistent with (assistant). This format is what every chatbot, API wrapper, and agent framework uses under the hood — including the tools we use daily.
+
+**Important:** These role labels are a convention the model learned during training — not a built-in rule it must obey. The model treats them as strong signals, but they are not a security boundary. This distinction matters when we discuss prompt injection in Part III.
 
 ---
 
