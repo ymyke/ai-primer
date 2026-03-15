@@ -115,6 +115,12 @@ AI is not universally helpful. Knowing where it adds value and where it creates 
 - **Unverifiable outputs** — If you can't tell whether the answer is right, you shouldn't delegate the task. The model might invent a legal precedent or misstate a financial figure, and you'd never know.
 - **Replacing judgment with delegation** — "The AI said so" is not analysis. AI can inform a decision, but it can't make one — it has no stakes, no accountability, and no understanding of your specific context.
 
+### A note on "AI" beyond this primer
+
+This primer covers LLMs — general-purpose language models like ChatGPT and Claude. But "AI" is much broader. When you hear that "AI predicts protein structures" (AlphaFold) or "AI forecasts weather" (GraphCast), those are specialized models: purpose-built neural networks trained on domain-specific data, not chatbots. They share some underlying technology (neural networks, transformers) but are entirely different systems — no context window, no system prompt, no conversation.
+
+When ChatGPT explains biology "correctly," it's because the explanation existed in its training data — not because it computed anything about molecules. The model that *actually* predicts protein structures is a different system entirely.
+
 ### The one rule
 
 **The easier it is to verify the output, the safer it is to use AI.** A draft you can read, data you can spot-check, a summary you can compare against the source — these are safe. An analysis you'd need to redo from scratch to verify — that's where AI creates more risk than value.

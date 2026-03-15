@@ -133,7 +133,7 @@ A rough reliability ranking:
 | Screenshots of tables         | Fragile                                           |
 | Video                         | Expensive and lossy                               |
 
-The common thread: multimodal AI is not "human-level seeing." It's a lossy compression of reality into tokens — powerful and convenient, but fundamentally different from how a person reads a document.
+The farther the input is from clean text, the more the system must guess, compress, and reconstruct before reasoning can even begin.
 
 **Rule of thumb:** Use multimodal input for triage, summarization, and first-pass interpretation. For high-stakes work, the practical pattern is: convert the raw input into clean text or structured data first, then let the model reason over that. Not because multimodality is bad, but because structured inputs are more controllable and auditable.
 
@@ -188,6 +188,9 @@ The current generation (Claude with Extended Thinking, OpenAI's o1/o3) is fundam
   │  ├─────────────────────────────────────────────┤    │
   │  │  RAG results (relevant documents)            │    │
   │  ├─────────────────────────────────────────────┤    │
+  │  │  Images / file attachments                   │    │
+  │  │  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │    │
+  │  ├─────────────────────────────────────────────┤    │
   │  │  Tool definitions (available tools)          │    │
   │  ├─────────────────────────────────────────────┤    │
   │  │  Conversation history (trimmed/filtered)     │    │
@@ -201,7 +204,7 @@ The current generation (Claude with Extended Thinking, OpenAI's o1/o3) is fundam
   └─────────────────────────────────────────────────────┘
 ```
 
-Everything we've covered — system prompt, RAG results, tool definitions, conversation history, thinking tokens — competes for the **same limited space** in the context window. The LLM sees *exclusively* what's in this window. Nothing else exists for the model.
+Everything we've covered — system prompt, RAG results, images, tool definitions, conversation history, thinking tokens — competes for the **same limited space** in the context window. The LLM sees *exclusively* what's in this window. Nothing else exists for the model.
 
 The **harness** is everything *except* the LLM itself: the entire application code that surrounds and enables the model. Conversation management, RAG pipelines, tool execution, routing, the agentic loop — all harness. The LLM is the engine. The harness is the car.
 
@@ -216,6 +219,7 @@ The **harness** is everything *except* the LLM itself: the entire application co
 - More RAG context = better informed, but less room for conversation
 - More tool definitions = more versatile, but the model gets less decisive about which to pick
 - Longer conversation history = more continuity, but higher cost and eventually quality degrades
+- Attaching images = richer understanding, but a single high-res image can consume thousands of tokens
 - For agents: every loop step fills the context with tool results — after 20 steps the context can be full
 
 This is why "Prompt Engineering" is actually the wrong term. It's not just about the prompt — it's about orchestrating the entire context.
