@@ -2,9 +2,7 @@
 
 ## Target Audience
 
-Average white-collar workers. Not particularly computer-savvy, but comfortable with office software, chatbots, search engines, and similar tools. No programming background assumed.
-
-MN people *using* such systems. Not people *building* them.
+People *using* AI systems, not people building them. Average white-collar workers — comfortable with office software, chatbots, search engines, and similar tools. No programming background assumed.
 
 ## Structure
 

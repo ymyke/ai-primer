@@ -83,7 +83,7 @@ In practice, most use cases are solved with prompting + RAG. Fine-tuning is rare
                  └──────┬──────┘
                         │
                         ▼
-               Text (+ images, audio) MN need to remove multim output here too?
+                    Text
 ```
 
 Modern LLMs don't just process text. **Multimodal models** can analyze images, read PDFs, and transcribe audio. This is genuinely useful — you can ask a model to summarize a slide deck, inspect a screenshot, read a diagram, or transcribe a meeting recording, all directly.
