@@ -112,14 +112,28 @@ The mental model: each modality has its own translator that converts input into 
                                             "Your name is Max."
 ```
 
-MN should we have the contrast heere where a plain LLM is asked "who am i?" repeatedly and responds with some slight vraition of "i dont knwo?"
+Without conversation history, the same question fails:
+
+```
+  Round 1:                           Round 2 (no history):
+  ┌──────────────────┐              ┌──────────────────────────┐
+  │ User: "I'm Max"  │              │ User: "What's my name?"  │
+  └────────┬─────────┘              └────────────┬─────────────┘
+           │                                     │
+           ▼                                     ▼
+    ┌─────────────┐                       ┌─────────────┐
+    │     LLM     │                       │     LLM     │
+    └─────────────┘                       └─────────────┘
+           │                                     │
+           ▼                                     ▼
+    "Hello Max!"                    "I don't know your name."
+```
 
 **The key insight:** The LLM itself has no memory. Every round, the *entire conversation history* is sent again as input. The chatbot is an application *around* the LLM that manages conversation history and includes it with every call.
 
 This explains why long conversations eventually break off (context window full), why the model "forgets" what was said 100 messages ago, and why each message in a long chat costs more — or hits rate limits sooner — because of the growing token count.
 
-MN should we mention memory here? (or is it mentioned elsewhere?) and maybe even backref to memory from RAG below?
-
+What products like ChatGPT call "memory" is exactly this trick — or a variant where key facts are stored separately and injected into the context on each call (a lightweight form of RAG, covered in §5).
 
 **Message format** — Most LLM APIs use a role system. Think of it as a script with labeled speakers:
 
