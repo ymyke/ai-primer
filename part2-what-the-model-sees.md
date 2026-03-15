@@ -218,8 +218,8 @@ The **harness** is everything *except* the LLM itself: the entire application co
 **Concrete trade-offs:**
 - More RAG context = better informed, but less room for conversation
 - More tool definitions = more versatile, but the model gets less decisive about which to pick
-- Longer conversation history = more continuity, but higher cost and eventually quality degrades
+- Longer conversation history = more continuity, but higher cost and eventually quality degrades. That 50-message conversation? It's consuming context that could hold instructions or reference material
 - Attaching images = richer understanding, but a single high-res image can consume thousands of tokens
-- For agents: every loop step fills the context with tool results — after 20 steps the context can be full
+- For agents: every loop step fills the context with tool results — after 20 steps the context can be full. This is why agents sometimes "lose track" mid-task or repeat themselves — earlier instructions or observations have been pushed out by newer tool results. Agent-builders spend enormous effort on managing this: truncating tool outputs, summarizing intermediate steps, deciding what the model really needs to see
 
 This is why "Prompt Engineering" is actually the wrong term. It's not just about the prompt — it's about orchestrating the entire context.

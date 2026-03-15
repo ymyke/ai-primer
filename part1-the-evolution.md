@@ -96,7 +96,7 @@ Without conversation history, the same question fails:
 
 **The key insight:** The LLM itself has no memory. Every round, the *entire conversation history* is sent again as input. The chatbot is an application *around* the LLM that manages conversation history and includes it with every call.
 
-This explains why long conversations eventually break off (context window full), why the model "forgets" what was said 100 messages ago, and why each message in a long chat costs more — or hits rate limits sooner — because of the growing token count.
+This explains why long conversations eventually break off (context window full), why the model "forgets" what was said 100 messages ago, and why each message in a long chat costs more — or hits rate limits sooner — because of the growing token count. Some products manage this by summarizing older messages to free up space — trading accurate recall of early messages for more room to work with.
 
 What products like ChatGPT call "memory" is exactly this trick — or a variant where key facts are stored separately and injected into the context on each call (a lightweight form of RAG, covered in Part II).
 
@@ -211,6 +211,8 @@ Before an LLM can use tools, it needs to answer in a structured way. **Structure
 **The crucial insight:** The LLM doesn't execute tools itself. It only decides *which* tool to call with *which* parameters. The application performs the actual call and feeds the result back. And the tool definitions? They're just text in the context window — typically part of the system prompt. The model has learned to recognize this format and generate matching structured calls.
 
 **Typical tools:** Web search, database queries, API calls, code execution, file operations, CRM access.
+
+**Why code execution changes everything:** Remember the strawberry problem from §1? The model can't count letters in "strawberry" because it never sees individual letters — only token fragments. But give the model a code execution tool, and it writes `'strawberry'.count('r')` — correct, every time. The model didn't get smarter. It got a calculator. The same applies to arithmetic, date calculations, sorting, and anything else where precise computation beats pattern matching. This is why the *same model* gives better answers in a product that has code execution than in one that doesn't.
 
 Tool integrations are becoming standardized: **MCP (Model Context Protocol)**, an open standard from Anthropic, defines a universal protocol for connecting tools to LLMs. Think of it as USB for AI tools — instead of building custom integrations for each model, you define the tool once.
 
