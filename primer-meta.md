@@ -19,7 +19,7 @@ Optional subsections that dive deeper into the technical details. More technical
 - Good for: internal mechanics, embeddings, encoding details, architecture concepts
 - Alternative name considered: "Diving Deeper"
 
-MN in the final result, we might "hide" UTHs and only show/expand them upon some interaction if the user  is interested to keep things focused and uncluttered.
+In the final result, UTH sections may be collapsible/hidden, expanded only on interaction — keeping the main flow focused and uncluttered.
 
 ## Tone & Style
 
@@ -30,7 +30,7 @@ MN in the final result, we might "hide" UTHs and only show/expand them upon some
 - Keep it concrete — real examples over abstract explanations
 - Disclaimer up front: this guide deliberately simplifies
 
-## Key Principles MN do these belogn here?
+## Key Principles
 
 - **Tokens are the central user-facing concept** — cost, context limits, and prompt design all revolve around tokens
 - **Embeddings are supporting** — mentioned once to complete the picture, not a major topic

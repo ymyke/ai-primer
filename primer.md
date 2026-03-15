@@ -27,19 +27,13 @@ A Large Language Model is, at its core, a probability machine: it computes the m
 
 **Key concepts:**
 
-- **Parameters (weights)** — The model's learned knowledge, encoded as numbers. GPT-4 has an estimated ~1.8 trillion; Claude's numbers aren't public. More parameters ≈ more knowledge capacity, but with diminishing returns. MN i liked the mention of "synapses" here in an earlier version. was it a good analogy? should we reintroduce?
-- **Context Window** — How much text the model can "see" at once. Measured in tokens. Claude: 200K tokens, GPT-4: 128K. Everything outside the window — prior messages, documents not included — is invisible to the model for that call.
+- **Parameters (weights)** — The model's learned knowledge, encoded as numbers (think of them as the model's "synapses"). Current models have parameters in the billions to trillions. More parameters ≈ more knowledge capacity, but with diminishing returns.
+- **Context Window** — How much text the model can "see" at once. Measured in tokens. Current models range from ~100K to over a million tokens. Everything outside the window — prior messages, documents not included — is invisible to the model for that call.
 - **Temperature** — The creativity dial. 0 = deterministic (always the most likely answer). 1 = creative/random. Low for code, higher for brainstorming.
 - **Training vs. Inference** — Training: the model learns from data (months, millions of $). Inference: the model answers a question (milliseconds, cents).
 
-MN instead of concrete numbers for params and context window, be generic? "params in the billions and trillions"? "context windows in the 100ks to million(s)"?
 
-
-**Under the hood:** When you call an LLM through an API, you send the content of the context window plus a few control parameters: `temperature`, `max_tokens` (how long the response may be), and optionally `stop_sequences`, and a couple of others. That's essentially it — the model is a function that takes text in and returns text out.
-
-MN show a typical call to model here as python or curl or sth?
-
-MN re all UTH sections: let's separate files for each uth sections (currently 2?) and put each uth in that file. then only  reference from here to focus on the primer itself.
+*→ See [Under the Hood: The API Call](primer-uth.md#the-api-call) for what an LLM call actually looks like in code.*
 
 ### Tokens — The Machine's Language
 
@@ -55,7 +49,7 @@ MN re all UTH sections: let's separate files for each uth sections (currently 2?
    (Tokens)              (Token IDs)
 ```
 
-Before the LLM processes anything, text is split into **tokens** — word fragments with numeric IDs. The model never sees raw text — it sees only these fragments. This is a small detail (MN is it a "small detail" if it has big consequences?) with big consequences.
+Before the LLM processes anything, text is split into **tokens** — word fragments with numeric IDs. The model never sees raw text — it sees only these fragments. This seems like a technical detail, but it has big consequences.
 
 **Why tokens explain so much "weird" LLM behavior:** Ask a model "How many r's in strawberry?" and it often gets it wrong. Not because it can't count, but because "strawberry" is one or two tokens — the model never sees individual letters. It's like reading a word printed across puzzle pieces: you see each piece, but you can't easily count letters that are glued inside them. The same goes for reversing a string or simple spelling tasks: the model literally can't see what you think it sees.
 
@@ -63,14 +57,11 @@ Arithmetic is similar. A number like "184723" might be split into ["184", "723"]
 
 Tokens also explain why many LLMs work better in English than in other languages. Tokenizers are trained mostly on English text, so English gets efficient, large tokens. German or Japanese text gets split into more, smaller pieces — meaning the same content uses more tokens, fills the context window faster, costs more, and generally gets worse results.
 
-Rule of thumb: 1 token ≈ 4 characters of English, ≈ 3 characters of German. MN factcheck this hard
+Rule of thumb: 1 token ≈ 4 characters of English, ≈ 3 characters of German.
 
 ---
 
 ## 2. Multimodality — More Than Text
-
-MN should we move this back? after the evoultion to agents etc?
-
 
 ```
   ┌────────────────────────────────────────┐
@@ -105,7 +96,7 @@ Modern LLMs don't just process text. **Multimodal models** can analyze images, r
 
 **How it works:** Each input type has its own translator (technically called an *encoder*) — a specialized neural network that converts that input into the same internal format as text. An image, for instance, is split into a grid of small patches, each converted into a token-like unit. From that point on, the LLM processes image patches and text tokens identically.
 
-The mental model: each modality has its own translator that converts input into the universal language the LLM already speaks. Images and audio consume tokens too — which is why uploading a large image eats into your context window. MN "eats into your context window." do nontechies understand that?
+The mental model: each modality has its own translator that converts input into the universal language the LLM already speaks. Images and audio consume tokens too — which is why uploading a large image eats into your context window (the space available for your conversation).
 
 **Practically relevant:** analyzing documents and PDFs directly, evaluating product screenshots, reading spreadsheets, interpreting diagrams and flowcharts.
 
@@ -120,32 +111,13 @@ The mental model: each modality has its own translator that converts input into 
 | Screenshots of tables         | Fragile                                           |
 | Video                         | Expensive and lossy                               |
 
-MN is this table accurate? factcheck hard
-MN also: is it really helpful?
-
 
 
 PDFs deserve special mention: a PDF is not "just a document." It can contain selectable text, scanned images, tables, charts, multi-column layouts, and footnotes — all mixed together. In that sense, a PDF is often multimodal *itself*. That's why the same model can summarize one PDF perfectly and miss key details in another.
 
 **Rule of thumb:** Use multimodal input for triage, summarization, and first-pass interpretation. Use clean text or structured data when precision matters.
 
-### Under the Hood: From Pixels to Vectors
-
-Tokens are not what the LLM processes directly. They are first converted into numerical vectors called **embeddings** — lists of numbers that represent meaning in a form neural networks can compute with. The LLM never sees raw text, pixels, or sound. It only processes vectors.
-
-```
-  text → tokenizer → token IDs → embedding vectors ─┐
-                                                      ├──▶ LLM (transformer)
-  image → vision encoder → visual embedding vectors ──┘
-```
-
-For text, the process is straightforward: each token ID maps to a fixed embedding vector via a lookup table. The word "cat" always starts as the same vector. Meaning in context — is this a pet or a Linux command? — emerges later, as the transformer processes the full sequence and updates each vector based on its surroundings.
-
-For images, the process is more involved. The image is split into a grid of small patches. A specialized vision encoder processes all patches together, producing one embedding vector per patch. These vectors already carry some awareness of the broader image — the patch containing a cat's ear "knows" there's a desk below it. The vectors are then projected into the same format as text embeddings, so the LLM can process both in a single sequence.
-
-This is why multimodality works at all: different input types are translated into the same kind of vector, and the LLM processes them all identically from that point on.
-
-It also explains why images are less reliable than text. An image must be compressed from millions of pixels into a few hundred vectors. There's always a trade-off: larger patches mean fewer tokens (cheaper, faster) but lose detail; smaller patches preserve more detail but consume more of the context window. Text doesn't have this problem — it's already sequential and discrete.
+*→ See [Under the Hood: From Pixels to Vectors](primer-uth.md#from-pixels-to-vectors) for how images and text are converted into the vectors the LLM actually processes.*
 
 ---
 
