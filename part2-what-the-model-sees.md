@@ -7,7 +7,7 @@
 ## 8. RAG — Tapping External Knowledge
 
 ```
-  User: "What does our memo on Lichtwart say?"
+  User: "What's our remote work policy?"
                      │
           ┌──────────┴──────────┐
           ▼                     │
@@ -20,9 +20,10 @@
           ▼                     ▼
   ┌───────────────┐    ┌───────────────────────────┐
   │  Vector DB    │    │  Prompt to LLM:            │
-  │  (Pinecone,   │───▶│  "Context: [memo excerpt]  │
-  │   Chroma,     │    │   Question: What does the  │
-  │   pgvector)   │    │   Lichtwart memo say?"     │
+  │  (Pinecone,   │───▶│  "Context: [handbook excerpt│
+  │   Chroma,     │    │   on remote work]           │
+  │   pgvector)   │    │   Question: What's our     │
+  │               │    │   remote work policy?"      │
   └───────────────┘    └─────────────┬─────────────┘
                                      ▼
                               ┌─────────────┐
@@ -48,7 +49,7 @@
 Three ways to get a model to do what you want, each for different situations:
 
 - **Prompting** (including system prompts and few-shot examples) — Cheapest, fastest to iterate. Good for steering behavior, tone, and format. Limited by context window size.
-- **RAG** — Best when the model needs access to specific, changing, or proprietary knowledge (your deal memos, market reports, internal docs). Doesn't change the model itself.
+- **RAG** — Best when the model needs access to specific, changing, or proprietary knowledge (company handbooks, meeting notes, internal reports). Doesn't change the model itself.
 - **Fine-tuning** — Actually retrains the model on your data. Expensive, slow, and hard to iterate. Use it when you need the model to learn a fundamentally different *skill* or style that can't be achieved through prompting — not just to give it information (that's what RAG is for).
 
 In practice, most use cases are solved with prompting + RAG. Fine-tuning is rarely necessary.
@@ -146,16 +147,16 @@ The common thread: multimodal AI is not "human-level seeing." It's a lossy compr
 ```
   Classic LLM:                       Thinking Model:
 
-  "Is this undervalued?"             "Is this undervalued?"
+  "Should I buy or rent?"            "Should I buy or rent?"
            │                                    │
            ▼                                    ▼
     ┌─────────────┐                      ┌─────────────┐
     │     LLM     │                      │     LLM     │
     └─────────────┘                      │  ┌────────────────────┐
            │                             │  │ Thinking (hidden)  │
-           ▼                             │  │ "12M pre at Seed.. │
-    Direct answer                        │  │  Comparables show..│
-                                         │  │  But the team..."  │
+           ▼                             │  │ "Rent is $1,800/mo │
+    Direct answer                        │  │  Buying: $2,700/mo │
+                                         │  │  But equity..."    │
                                          │  └────────────────────┘
                                          └─────────────┘
                                                 │

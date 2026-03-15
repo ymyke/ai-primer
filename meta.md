@@ -54,6 +54,15 @@ Optional subsections that dive deeper into the technical details. More technical
 
 In the final result, UTH sections may be collapsible/hidden, expanded only on interaction — keeping the main flow focused and uncluttered.
 
+## Examples
+
+- **Concrete over generic.** "Summarize these 12 restaurant reviews" beats "Summarize this document." Vivid scenarios the reader can picture.
+- **Universal over niche.** If the reader needs even a moment to process what the example is about, pick a different one. No domain expertise required.
+- **Transparent.** The reader looks *through* the example at the concept, not *at* the example. The example is a window, not a painting.
+- **Double duty.** Each example earns its place twice: it illustrates the technical concept AND feels like a real task someone would do.
+- **Varied domains.** No single domain forced across all sections. Each concept gets the example that serves it best — everyday work (emails, meetings, documents), everyday life (travel, cooking, shopping).
+- **No footnotes.** If an example needs explaining, it's the wrong example.
+
 ## Tone & Style
 
 - Conversational but precise

@@ -35,15 +35,16 @@ A Large Language Model is, at its core, a text continuation engine: given some t
 ### Tokens — The Machine's Language
 
 ```
-  "Climate technology matters"
+  "Strawberry fields forever"
                 │
                 ▼
         ┌── Tokenizer ──┐
         │                │
         ▼                ▼
-  ["Climate", " tech",  ["8241", "1092",
-   "nology", " matters"] "5523", " 7841"]
-   (Tokens)              (Token IDs)
+  ["Str", "awberry",    ["2905", "675",
+   " fields",            "5765",
+   " forever"]           "8901"]
+   (Tokens)             (Token IDs)
 ```
 
 Before the LLM processes anything, text is split into **tokens** — word fragments with numeric IDs. The model never sees raw text — it sees only these fragments. This seems like a technical detail, but it has big consequences.
@@ -122,11 +123,11 @@ The "system" message sets behavior (more on that next). The "user" and "assistan
 ```
   ┌─────────────────────────────────────────┐
   │  System Prompt (invisible to user)       │
-  │  "You are a climate tech analyst.        │
-  │   Be precise. Respond in bullet points." │
+  │  "You are a travel assistant. Be concise.│
+  │   Recommend based on budget and          │
+  │   interests."                            │
   ├─────────────────────────────────────────┤
-  │  User: "Evaluate this startup"           │
-  │  ...                                     │
+  │  User: "Plan a weekend trip to Berlin"│
   └──────────────────┬──────────────────────┘
                      │
                      ▼
@@ -146,7 +147,7 @@ This is where most practical "prompt engineering" happens: defining persona and 
 ## 4. Structured Output — Machine Talks to Machine
 
 ```
-  Prompt: "Extract name and sector"         + Schema
+  Prompt: "Extract restaurant details"      + Schema
                      │                          │
                      ▼                          ▼
               ┌─────────────────────────────────────────┐
@@ -155,9 +156,10 @@ This is where most practical "prompt engineering" happens: defining persona and 
                                   │
                                   ▼
                           {
-                            "name": "Lichtwart",
-                            "sector": "Building Automation",
-                            "stage": "Pre-Seed"
+                            "name": "Trattoria Milano",
+                            "cuisine": "Italian",
+                            "price_range": "$$",
+                            "vegetarian_friendly": true
                           }
 ```
 
@@ -179,9 +181,9 @@ Before an LLM can use tools, it needs to answer in a structured way. **Structure
   │                                                  │
   │  Available tools:                                │
   │  - get_weather(city) → weather data              │
-  │  - search_crm(name) → deal info                  │
+  │  - web_search(query) → search results            │
   ├─────────────────────────────────────────────────┤
-  │  User: "What's the weather in Zurich?"           │
+  │  User: "What's the weather in Tokyo?"            │
   └──────────────────────┬──────────────────────────┘
                          │
                          ▼
@@ -190,7 +192,7 @@ Before an LLM can use tools, it needs to answer in a structured way. **Structure
                   └─────────────┘
                          │
     Instead of answering directly, the LLM outputs:
-    "Call get_weather with city = Zurich"
+    "Call get_weather with city = Tokyo"
                          │
                          ▼
               ┌─────────────────┐
@@ -199,7 +201,7 @@ Before an LLM can use tools, it needs to answer in a structured way. **Structure
               └────────┬────────┘
                        │
                        ▼
-    Result: { temp: "12°C", condition: "cloudy" }
+    Result: { temp: "28°C", condition: "humid" }
                        │
                        ▼
                 ┌─────────────┐
@@ -207,7 +209,7 @@ Before an LLM can use tools, it needs to answer in a structured way. **Structure
                 └─────────────┘
                        │
                        ▼
-   "It's currently 12°C and cloudy in Zurich."
+   "It's currently 28°C and humid in Tokyo."
 ```
 
 **The crucial insight:** The LLM doesn't execute tools itself. It only decides *which* tool to call with *which* parameters. The application performs the actual call and feeds the result back. And the tool definitions? They're just text in the context window — typically part of the system prompt. The model has learned to recognize this format and generate matching structured calls.
@@ -223,8 +225,8 @@ Tool integrations are becoming standardized: **MCP (Model Context Protocol)**, a
 ## 6. The Agentic Loop — Autonomous Action
 
 ```
-  User: "Research the last 3 deals in the building sector
-         and create a comparison table."
+  User: "Plan a weekend trip to Rome: find top
+         restaurants, check weather, build an itinerary."
                           │
                           ▼
   ┌──────────────────────────────────────────────────┐
@@ -250,7 +252,7 @@ Tool integrations are becoming standardized: **MCP (Model Context Protocol)**, a
   └──────────────────────────────────────────────────┘
                           │
                           ▼
-              Finished comparison table
+              Finished itinerary
 ```
 
 The leap from tool use to **agent**: instead of calling one tool once, the LLM autonomously plans a sequence of steps and iterates until the task is complete.
@@ -274,7 +276,8 @@ A shell can do anything a computer can — read/write files, start processes, ca
 ## 7. Multi-Agent — Division of Labor
 
 ```
-  User: "Analyze this deal end to end"
+  User: "Plan a birthday party for 30 people:
+         find a venue, plan the menu, create invitations."
                      │
                      ▼
          ┌───────────────────────┐
@@ -284,8 +287,8 @@ A shell can do anything a computer can — read/write files, start processes, ca
              │     │     │
              ▼     ▼     ▼
          ┌─────┐┌─────┐┌──────┐
-         │Mkt. ││Team ││Fin.  │    ◄── Subagents
-         │Anal.││Anal.││Anal. │        (each with own loop,
+         │Venue││Menu ││Invi- │    ◄── Subagents
+         │find ││plan ││tation│        (each with own loop,
          └──┬──┘└──┬──┘└──┬───┘         own context, own tools)
             │      │      │
             ▼      ▼      ▼
@@ -295,13 +298,13 @@ A shell can do anything a computer can — read/write files, start processes, ca
          └───────────────────────┘
                      │
                      ▼
-            Complete deal report
+            Complete party plan
 ```
 
 When a task is too big or too multifaceted for a single agent, you split it across **subagents**. The orchestrator delegates subtasks, each subagent runs its own agentic loop, and returns its result — just like any other tool call.
 
 **Why subagents?**
-- **Context separation** — Each subagent has its own context window. The market analyst doesn't need to see the financial model.
+- **Context separation** — Each subagent has its own context window. The menu planner doesn't need to see the venue options.
 - **Specialization** — Each subagent can have its own system prompt, tools, and instructions.
 - **Parallelization** — Multiple subagents can work simultaneously.
-- **Fault isolation** — If the financial analyst crashes, the other results aren't lost.
+- **Fault isolation** — If the venue search fails, the menu plan isn't lost.
