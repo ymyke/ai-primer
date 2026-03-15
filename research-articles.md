@@ -18,6 +18,10 @@ Articles and guides found across the internet that cover topics aligned with the
 - [Leading with AI: A Non-Technical Executive's Guide for 2025 — Nucamp](https://www.nucamp.co/blog/ai-essentials-for-work-2025-leading-with-ai-a-nontechnical-executives-guide-for-2025)
 - [Approaching the AI Revolution: A Guide to Non-Tech Professionals — Dealon.ai](https://blog.dealon.ai/ai-revolution-a-guide-to-non-tech-professionals/)
 - [AI for Business Professionals: A Practical Guide — LearnWithGoms](https://www.learnwithgoms.com/2025/12/ai-for-business-professionals-practical.html)
+- [Hugging Face Agents Course (GitHub)](https://github.com/huggingface/agents-course) — progressive curriculum covering messages, system prompts, tools, agent loops, and multi-agent; developer-oriented but well-structured
+- [An Agentic AI Primer — JISC/National Centre for AI](https://nationalcentreforai.jiscinvolve.org/wp/2026/01/23/an-agentic-ai-primer/) — practical intro to agentic AI for education sector, covers implications for teaching, research, and governance
+- [The Agentic AI Book — Dr. Ryan Rad (Northeastern/UBC)](https://book.ryanrad.org/) — developer-focused guide from foundational concepts to multi-agent orchestration, covers hallucinations, prompt injection, and non-determinism
+- [Hands-on LLM-based Agents: A Tutorial for General Audiences — TechRxiv](https://www.techrxiv.org/doi/full/10.36227/techrxiv.176369788.84013646/v1) — 9 practical examples requiring no coding or ML background; self-contained (non-sequential) case studies
 
 ---
 
@@ -116,6 +120,13 @@ Articles and guides found across the internet that cover topics aligned with the
 - [Agentic AI, Explained — MIT Sloan](https://mitsloan.mit.edu/ideas-made-to-matter/agentic-ai-explained)
 - [What is Agentic AI? — AWS](https://aws.amazon.com/what-is/agentic-ai/)
 - [The Rise of Agentic AI: Why Human-in-the-Loop Still Matters — iMerit](https://imerit.net/resources/blog/the-rise-of-agentic-ai-why-human-in-the-loop-still-matters-una/)
+- [Building Effective AI Agents — Anthropic](https://www.anthropic.com/research/building-effective-agents) — canonical guide from augmented LLM → workflow patterns → agents; explicitly rejects linear ordering
+- [The Unreasonable Effectiveness of an LLM Agent Loop with Tool Use — sketch.dev](https://sketch.dev/blog/agent-loop) — "the difference is one while loop"
+- [What Is the AI Agent Loop? — Oracle Developers](https://blogs.oracle.com/developers/what-is-the-ai-agent-loop-the-core-architecture-behind-autonomous-ai-systems)
+- [A Visual Guide to LLM Agents — Maarten Grootendorst](https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-llm-agents) — 60+ custom visuals, covers memory/tools/planning/multi-agent; technically oriented
+- [Language Models and Agents — Code Farm](https://blog.codefarm.me/llm-and-agent/) — LLM as predictor → agents as LLM + tools + loop → multi-agent as graph
+- [Agentic LLMs in 2025 — Data Science Dojo](https://datasciencedojo.com/blog/agentic-llm-in-2025/) — "the difference between a calculator and a pilot"
+- [From Prompts to Production: a Playbook for Agentic Development — InfoQ](https://www.infoq.com/articles/prompts-to-production-playbook-for-agentic-development/) — three-tier practitioner playbook (Foundation → Workflow → Autonomous)
 
 ### Practical Agent Examples
 
@@ -141,6 +152,8 @@ Articles and guides found across the internet that cover topics aligned with the
 - [Multi-Agent Architectures Explained: How AI Agents Collaborate — Medium](https://medium.com/@iamanraghuvanshi/agentic-ai-7-multi-agent-architectures-explained-how-ai-agents-collaborate-141c23e9117f)
 - [Multi-Agent — LangChain Docs](https://docs.langchain.com/oss/python/langchain/multi-agent)
 - [Multi Agent System Explained — Zams](https://zams.com/blog/multi-agent-systems)
+- [How to Build Multi Agent AI Systems With Context Engineering — Vellum](https://www.vellum.ai/blog/multi-agent-systems-building-with-context-engineering)
+- [Fundamentals of Building Autonomous LLM Agents — TUM (arXiv)](https://arxiv.org/html/2510.09244v1) — academic seminar report covering foundations → tool use → planning → multi-agent
 
 ---
 
@@ -254,27 +267,65 @@ Part I's structure is a dependency chain: plain LLM → chatbot → system promp
 
 | Resource | Coverage | How it differs |
 |---|---|---|
-| [LLM Agents: The Six Levels of Agentic Behavior — Vellum](https://www.vellum.ai/blog/levels-of-agentic-behavior) | L0 rule-based → L1 basic responder → L2 tool use → L3 observe/plan/act → L4 autonomous → L5 creative | Closest structural match. Skips system prompt and structured output as distinct steps; frames it as a spectrum rather than a dependency chain |
-| [Single LLM to Agentic AI: GenAI's Evolution Explained — Senthil Kumar (Medium)](https://medium.com/@senthilkumar.m1901/single-llm-to-agentic-ai-genais-evolution-explained-c0670d8325f3) | Single LLM → agentic AI as visual evolution | Title suggests exactly our arc. Paywalled — couldn't verify full content |
+| [LLM Agents: The Six Levels of Agentic Behavior — Vellum](https://www.vellum.ai/blog/levels-of-agentic-behavior) | L0 rule-based → L1 basic responder → L2 tool use → L3 observe/plan/act → L4 autonomous → L5 creative | Closest structural match. Uses autonomous-vehicle analogy, each level explicitly builds on previous. But tracks *autonomy/agency* not infrastructure building blocks. System prompt and structured output absent as named stages |
+| [Single LLM to Agentic AI: GenAI's Evolution Explained — Senthil Kumar (Medium)](https://medium.com/@senthilkumar.m1901/single-llm-to-agentic-ai-genais-evolution-explained-c0670d8325f3) | Batch LLM → chat LLM → single agent → multi-agent, told with visual diagrams | Title suggests exactly our arc. Content follows a *historical/chronological* evolution (how GenAI applications progressed from batch API calls to multi-agent). Skips system prompt and structured output as distinct steps. Developer-oriented |
+| [Building Effective AI Agents — Anthropic](https://www.anthropic.com/research/building-effective-agents) | Augmented LLM → 5 workflow patterns (prompt chaining, routing, parallelization, orchestrator-workers, evaluator-optimizer) → agents | The canonical practitioner guide. *Explicitly rejects* linear progression — patterns are parallel options chosen by use case, not prerequisites. Developer audience. No system prompt or structured output as named stages |
+| [A Visual Guide to LLM Agents — Maarten Grootendorst](https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-llm-agents) | Plain LLM (next-token prediction) → LLM limitations → augmented LLM → agent pillars (memory, tools, planning) → multi-agent (AutoGen, MetaGPT, CAMEL) | 60+ custom visuals, impressive scope. But organizes around three *parallel pillars* of agent capability, not a sequential chain. Skips chatbot, system prompt, and structured output as distinct stages. Heavily technical audience |
+| [Hugging Face Agents Course](https://huggingface.co/learn/agents-course) | Messages & tokens → system prompts → tools → thought-action-observation cycle → multi-agent frameworks | The closest to covering system prompts and tools as distinct curriculum steps. But *starts at the agent level* — system prompt and tools are treated as implementation details *within* agents, not as steps leading *to* agents. Developer/ML practitioner audience |
+| [AI in 2026: Predictions Mapped to the Agentic AI Maturity Model — Arsanjani (Medium)](https://dr-arsanjani.medium.com/ai-in-2026-predictions-mapped-to-the-agentic-ai-maturity-model-c6f851a40ef5) | L1 stateless (oracle) → L2 RAG/grounded → L3 reasoning tools → L4 sandboxed constitutional agency | Another leveled framework like Vellum, but tracks *organizational maturity* ("how mature is your AI deployment?") not technical building blocks. Aimed at enterprise strategists |
+| [Hands-on LLM-based Agents: A Tutorial for General Audiences — TechRxiv](https://www.techrxiv.org/doi/full/10.36227/techrxiv.176369788.84013646/v1) | 9 practical examples of agent capabilities across domains | Closest to our *target audience* — explicitly requires no coding or ML background. But examples are deliberately *self-contained and non-sequential* — the opposite of a dependency chain. Each can be read independently |
+| [From Single LLM to Agentic AI — Maya Insights](https://www.mayainsights.com/blog/from-single-llm-to-agentic-ai-the-evolution-and-its-role-in-mayas-infrastructure/) | Batch processing → chat LLM → agentic AI (3 stages) | Business-oriented with marketing-specific examples (GA4, AdWords). Only 3 coarse stages with no mention of system prompt, structured output, or tool use as distinct steps |
 | [Evolution of AI Chatbots: From Scripts to Autonomous Agents — PagerGPT](https://pagergpt.ai/ai-chatbot/evolution-of-ai-chatbots) | Rule-based → NLP/ML → generative LLM → autonomous agents (4 stages) | Covers the broad sweep as history, not as a technical dependency chain. Doesn't break out system prompt, structured output, or tool use as distinct steps |
 | [Function Calling Using LLMs — Martin Fowler](https://martinfowler.com/articles/function-call-LLM.html) | Tool use → agent transition in depth | Best single-article treatment of tool use as the unlock for agency. Assumes prior steps, doesn't build from scratch |
+| [From Prompts to Production: a Playbook for Agentic Development — InfoQ](https://www.infoq.com/articles/prompts-to-production-playbook-for-agentic-development/) | Foundation tier → Workflow tier → Autonomous tier | Three-tier progression for enterprise deployment, but organized around *operational maturity* (governance, trust, infrastructure), not technical capability dependency. Developer/architect audience |
 | [Beyond the Chat: A Developer's Guide to Building with AI Agents — DEV Community](https://dev.to/midas126/beyond-the-chat-a-developers-guide-to-building-with-ai-agents-165) | Chatbot → perception/planning/action/memory → agent with tools | Jumps from chatbot directly to agents. Skips system prompt and structured output |
 | [LLM Agents Explained — DataCamp](https://www.datacamp.com/blog/llm-agents) | LLM foundations → tool calling → agent loop → multi-agent | Covers the agent half of the chain well but starts at tool use, not at the plain LLM |
+| [Language Models and Agents — Code Farm](https://blog.codefarm.me/llm-and-agent/) | LLM as next-token predictor → agents as LLM + tools + orchestration loop → multi-agent as recursive stateful graph | Good technical overview but flat structure — components presented as a reference, not a progressive narrative |
 | [AI Agents: The Definitive Guide — Comet](https://www.comet.com/site/blog/ai-agents/) | Comprehensive agent guide | Broad coverage but flat structure — not a progressive build-up |
 | [Context Engineering: LLM Evolution for Agentic AI — Elastic](https://www.elastic.co/search-labs/blog/context-engineering-llm-evolution-agentic-ai) | LLM evolution through the lens of context engineering | Interesting angle but organized by context management, not by capability dependency |
+| [Agentic LLMs in 2025 — Data Science Dojo](https://datasciencedojo.com/blog/agentic-llm-in-2025/) | LLM as text predictor → agentic LLM as autonomous actor ("calculator vs. pilot") | Framing covers the right territory but structured as a trend report, not a teaching progression |
 
-### Conclusion: Part I's Structure Is Novel
+### The Critical Differentiator: System Prompt + Structured Output as Named Stages
 
-No existing article mirrors Part I's dependency chain. Every article examined either:
+The sharpest test applied to every article was: **does it treat BOTH "system prompt" AND "structured output" as distinct, named stages in a progression?**
 
-1. **Covers a single topic in depth** (tool use, agents, etc.) without building up from earlier steps
-2. **Jumps straight to agents**, assuming the reader already knows LLM/chatbot basics
-3. **Gives a flat overview** of LLM concepts without the dependency framing
-4. **Tells a historical story** (rule-based → NLP → LLM → agents) rather than a *technical* dependency chain
+Zero articles do this. Across all 17 resources examined in the table above:
 
-The Vellum "levels of agentic behavior" piece comes closest in spirit — it defines a progression where each level adds capability. But it still skips system prompt and structured output as distinct steps, and frames the levels as a classification system rather than a narrative where each step unlocks the next.
+| Feature | Articles that include it |
+|---|---|
+| System prompt as a named stage | 0 of 17 (Hugging Face covers it as a topic *within* the agent unit, not as a stage *toward* agents) |
+| Structured output as a named stage | 0 of 17 |
+| Explicit dependency chain (each step requires previous) | 2 of 17 (Vellum, Arsanjani — but on different axes) |
+| Non-technical target audience | 2 of 17 (TechRxiv tutorial, Maya Insights — but neither uses dependency framing) |
 
-**Part I's distinctive contribution is the explicit dependency chain told as a progressive narrative for non-technical readers.** The framing that structured output enables tool use, which enables the agentic loop, which enables multi-agent — each building on the previous — doesn't appear to exist elsewhere in this form.
+Every resource either treats system prompt and structured output as implementation details embedded within other topics (usually "tool use" or "agents"), or skips them entirely. This makes sense from a *developer* perspective — developers already understand these concepts and want to jump to agents. But it's exactly what makes Part I's structure valuable for *non-technical readers*: these intermediate concepts are the ones that build intuition for *why* agents work the way they do.
+
+### Conclusion: Part I's Structure Is Novel (Verified March 2026)
+
+After examining 17 articles and guides across the LLM-to-agent space — including major new resources from Anthropic, Hugging Face, Maarten Grootendorst, InfoQ, TechRxiv, and several 2026 publications — the original conclusion holds:
+
+**No existing article mirrors Part I's dependency chain.**
+
+Every article examined falls into one of five patterns:
+
+1. **Covers a single topic in depth** (tool use, agents, etc.) without building up from earlier steps — *Martin Fowler, sketch.dev*
+2. **Jumps straight to agents**, assuming the reader already knows LLM/chatbot/prompting basics — *Anthropic, DataCamp, Grootendorst, Hugging Face*
+3. **Gives a flat overview** of LLM concepts without the dependency framing — *Comet, Code Farm, Elastic*
+4. **Tells a historical story** (rule-based → NLP → LLM → agents) rather than a *technical* dependency chain — *PagerGPT, Senthil Kumar, Maya Insights, Data Science Dojo*
+5. **Defines a maturity/autonomy spectrum** rather than a build-up of infrastructure capabilities — *Vellum, Arsanjani, InfoQ*
+
+The Vellum "six levels" and Arsanjani "maturity model" pieces come closest in form — both define explicit progressions where each level builds on the previous. But both organize around *how autonomous the system is*, not *what infrastructure enables that autonomy*. They classify outcomes ("this system is L3"), whereas Part I explains causes ("structured output is what makes tool use possible").
+
+The Hugging Face agents course comes closest in *content* — it covers messages, system prompts, tools, and multi-agent as distinct curriculum topics. But its pedagogical frame is "here are the components you need to build an agent," not "here is how each capability unlocks the next." System prompt and tools are topics *within* the agent unit, not steps *toward* agents.
+
+**Part I's distinctive contribution remains the explicit dependency chain told as a progressive narrative for non-technical readers.** The framing that structured output enables tool use, which enables the agentic loop, which enables multi-agent — each building on the previous — doesn't appear to exist elsewhere in this form. The combination of:
+
+- **Non-technical audience** (not developers or ML practitioners)
+- **Explicit dependency framing** (each step requires and builds on the previous)
+- **System prompt and structured output as named stages** (not implementation details)
+- **Progressive narrative** (not a classification system, maturity model, or flat reference)
+
+...appears to be genuinely unique.
 
 ---
 
@@ -285,12 +336,18 @@ These deserve special attention for depth, quality, or close alignment with the 
 | Resource | Why Notable |
 |---|---|
 | [Martin Fowler — Function Calling Using LLMs](https://martinfowler.com/articles/function-call-LLM.html) | Clear, authoritative, accessible explanation of tool use |
+| [Anthropic — Building Effective AI Agents](https://www.anthropic.com/research/building-effective-agents) | The canonical practitioner guide to agent patterns; augmented LLM → workflows → agents |
 | [Anthropic — Effective Context Engineering for AI Agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) | Directly relevant to context engineering section |
 | [OpenAI — A Practical Guide to Building Agents](https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/) | Comprehensive agent-building guide from a major provider |
+| [Maarten Grootendorst — A Visual Guide to LLM Agents](https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-llm-agents) | 60+ custom visuals covering agents, memory, tools, planning, multi-agent, and MCP |
+| [Hugging Face — Agents Course](https://huggingface.co/learn/agents-course) | Progressive curriculum: messages → system prompts → tools → agent loop → multi-agent |
 | [MIT Sloan — Agentic AI, Explained](https://mitsloan.mit.edu/ideas-made-to-matter/agentic-ai-explained) | Academic but accessible treatment of agentic AI |
+| [TechRxiv — Hands-on LLM Agents for General Audiences](https://www.techrxiv.org/doi/full/10.36227/techrxiv.176369788.84013646/v1) | Closest match on target audience — 9 no-code examples for non-technical readers |
 | [OWASP — LLM01:2025 Prompt Injection](https://genai.owasp.org/llmrisk/llm01-prompt-injection/) | The authoritative security reference |
 | [arXiv — Chain-of-Thought Prompting (original paper)](https://arxiv.org/abs/2201.11903) | The foundational research paper |
 | [LMSYS — RouteLLM](https://lmsys.org/blog/2024-07-01-routellm/) | The key open-source routing framework |
 | [ByteByteGo — Multimodal LLMs Basics](https://blog.bytebytego.com/p/multimodal-llms-basics-how-llms-process) | Strong visual explanations of multimodal processing |
 | [Sean Trott — Tokenization in LLMs, Explained](https://seantrott.substack.com/p/tokenization-in-large-language-models) | Accessible deep-dive on tokenization |
 | [JetBrains Research — Smarter Context Management](https://blog.jetbrains.com/research/2025/12/efficient-context-management/) | Cutting-edge research on context management |
+| [sketch.dev — The Unreasonable Effectiveness of an Agent Loop with Tool Use](https://sketch.dev/blog/agent-loop) | Pithy distillation: "the difference is one while loop" |
+| [InfoQ — From Prompts to Production: Agentic Development Playbook](https://www.infoq.com/articles/prompts-to-production-playbook-for-agentic-development/) | Three-tier enterprise progression (Foundation → Workflow → Autonomous) |
