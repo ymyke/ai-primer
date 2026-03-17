@@ -1,6 +1,6 @@
 # Summary
 
-* [Introduction](README.md)
+* [AI Primer: The Evolution of AI Systems](README.md)
 
 ## Part I: The Evolution
 
