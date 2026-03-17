@@ -6,20 +6,20 @@
          Reserve a table for 2 at 7."
                        │
                        ▼
-    ┌────────────────────────────────────┐
-    │                                    │
-    │    ┌─────────┐         ┌────────┐ │
-    │    │         │  tool   │        │ │
-    │    │   LLM   │  call   │  App   │ │
-    │    │         │────────▶│ (runs  │ │
-    │    │         │         │  tool) │ │
-    │    │         │◀────────│        │ │
-    │    └─────────┘  result └────────┘ │
-    │                                    │
-    │    Repeats until done              │
-    │    (or guardrail: max steps,       │
-    │     timeout, budget)               │
-    └────────────────────────────────────┘
+    ┌─────────────────────────────────────────┐
+    │                                         │
+    │    ┌─────────┐            ┌──────────┐  │
+    │    │         │   tool     │          │  │
+    │    │   LLM   │   call     │   App    │  │
+    │    │         │ ─────────▶ │  (runs   │  │
+    │    │         │            │   tool)  │  │
+    │    │         │ ◀───────── │          │  │
+    │    └─────────┘   result   └──────────┘  │
+    │                                         │
+    │    Repeats until done                   │
+    │    (or guardrail: max steps,            │
+    │     timeout, budget)                    │
+    └─────────────────────────────────────────┘
                        │
                        ▼
          "Reserved! Trattoria Bella, 7pm,

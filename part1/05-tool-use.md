@@ -1,16 +1,16 @@
 # 5. Tool Use — Hands for the LLM
 
 ```
-  ┌─────────────────────────────────────────────────┐
-  │  System Prompt:                                  │
-  │  "You are a helpful assistant."                  │
-  │                                                  │
-  │  Available tools:                                │
-  │    get_weather(city: string) → weather data      │
-  │    web_search(query: string) → search results    │
-  ├─────────────────────────────────────────────────┤
-  │  User: "What's the weather in Tokyo?"            │
-  └──────────────────────┬──────────────────────────┘
+  ┌──────────────────────────────────────────────────────┐
+  │  System Prompt:                                      │
+  │  "You are a helpful assistant."                      │
+  │                                                      │
+  │  Available tools:                                    │
+  │    get_weather(city: string) → weather data          │
+  │    web_search(query: string) → search results        │
+  ├──────────────────────────────────────────────────────┤
+  │  User: "What's the weather in Tokyo?"                │
+  └─────────────────────────┬────────────────────────────┘
                          │
                          ▼
                   ┌─────────────┐
