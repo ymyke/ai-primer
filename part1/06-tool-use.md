@@ -1,4 +1,4 @@
-# 5. Tool Use — Hands for the LLM MN "Hands for the LLM"? Any ideas for better alternative?
+# 6. Tool Use — Hands for the LLM MN "Hands for the LLM"? Any ideas for better alternative?
 
 ```
   ┌──────────────────────────────────────────────────────┐

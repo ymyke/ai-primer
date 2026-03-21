@@ -1,4 +1,4 @@
-# 8. Multimodality — More Than Text
+# 2. Multimodality — More Than Text
 
 ```
   ┌────────────────────────────────────────┐

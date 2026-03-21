@@ -1,4 +1,4 @@
-# 4. Structured Output — Machine Talks to Machine
+# 5. Structured Output — Machine Talks to Machine
 
 ```
   Prompt: "Here are three restaurant reviews. MN better: below is a list of restaurant reviews?

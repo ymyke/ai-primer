@@ -14,7 +14,7 @@
 
 A Large Language Model is, at its core, a text continuation engine: given some text, it produces the most likely next piece of text, token by token. No memory, no knowledge updates after training, no logic in the classical sense — just extraordinarily good pattern recognition over language. It doesn't "answer questions" — it continues text. That it *appears* to answer questions is because a question followed by a good answer is the most likely continuation.
 
-A single LLM call is *stateless* — after each response, the model has complete amnesia. It knows nothing about any previous call. This single fact explains why chatbots resend the entire conversation every time (§2). MN "see also next section" or sth?
+A single LLM call is *stateless* — after each response, the model has complete amnesia. It knows nothing about any previous call. This single fact explains why chatbots resend the entire conversation every time (§3). MN "see also next section" or sth?
 
 **Key concepts:**
 

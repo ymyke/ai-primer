@@ -1,4 +1,4 @@
-# 7. Multi-Agent — Division of Labor
+# 8. Multi-Agent — Division of Labor
 
 ```
   User: "Plan a birthday party for 30 people:

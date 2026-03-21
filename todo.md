@@ -35,20 +35,40 @@ pipeline vom foundation-model über das finetuning und alignment über preprompt
   - it's just the way i explain things to other people
   - and how i came to underatdn these systems after working with them for years (üi, ...)
 
-# simplifying
+# simplifying (done — March 2026)
 
-- broad ai note at the end into start page?
-- delete some of the old files
-- diff branch with simplified version?
-- thgrough out glossary etc?
+- simplified to 9 chapters + closing page, cut sections moved to `_drafts/`
+- broad ai note included in "What We Didn't Cover" closing page
+- glossary kept for now
 
 # Todos
 
-- have security and api (and maybe other uth topics) as "horizontal" layers that go thrugh all the sections?
 - reasoning models the more correct term for thinking models?
 - link to https://platform.openai.com/tokenizer ?
-- check the subtitles in primer.md before ever deleting that file
-- disclaimer at the end that says that AI is of course much more than what we discussed here and that there are many other kinds of models etc.?
+- resolve MN comments in 02-multimodality.md (7 comments) and 09-context-engineering.md (10 comments)
+- title decision (see candidates below)
+- consider: have security and api (and maybe other uth topics) as "horizontal" layers that go through all the sections?
+- disclaimer at the end that says that AI is of course much more than what we discussed here — partially addressed in closing page, revisit
+- from primer.md: should there be an "agents in practice" section covering security, the trade-off between usefulness (more access) and security (less access)?
+- from part3-in-practice.md: "the more you force an LLM to create sth ('I want a reference for every bit of information you generate'), the higher the likelihood for a hallucination" — consider adding to trusting-output draft
+
+# title candidates
+
+Subtitle candidates (from primer.md):
+- Not how to build it. How to look inside it.
+- Deep enough to understand. No deeper.
+- For users, not builders
+- Understand what you're using
+- How AI actually works — just deep enough
+- Not how to build it — how to understand it
+- Under the hood — for everyone on the road
+
+Title candidates (from panel):
+1. "AI Primer" (no subtitle)
+2. "AI Primer: From Text Box to Autonomous Agent"
+3. "AI Primer: What's Actually Happening When You Use AI"
+4. "AI Primer: How AI Systems Are Built, Layer by Layer"
+5. "AI Primer: Nine Things You Should Know About AI"
 
 
 -------------------------------------------------

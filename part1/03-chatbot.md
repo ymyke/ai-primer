@@ -1,4 +1,4 @@
-# 2. The Chatbot — Statefulness as Illusion
+# 3. The Chatbot — Statefulness as Illusion
 
 The LLM from Section 1 has no memory — each call starts from zero. A chatbot creates the illusion of a continuous conversation by resending everything that was said before.
 
@@ -42,7 +42,7 @@ Remove that history, and the same question fails:
 
 This explains why long conversations eventually break off (context window full), why the model "forgets" what was said 100 (MN "many" instead of 100?) messages ago, and why each message in a long chat costs more — or hits rate limits sooner — because of the growing token count. Some products manage this by summarizing older messages to free up space — trading accurate recall of early messages for more room to work with.
 
-What products like ChatGPT call "memory" is built on the same principle — with an added step: key facts from past conversations are extracted, stored separately, and included in the context on each call (a lightweight form of RAG, covered in Part II).
+What products like ChatGPT call "memory" is built on the same principle — with an added step: key facts from past conversations are extracted, stored separately, and included in the context on each call (a lightweight form of **RAG** — Retrieval Augmented Generation — injecting stored information into the context at runtime).
 
 **Message format** — Behind the scenes, every conversation is structured using labeled roles — think of it as a script with named speakers:
 
@@ -57,4 +57,4 @@ messages: [
 
 The "system" message sets behavior (more on that next). The "user" and "assistant" messages are the conversation turns. The roles serve a practical purpose: they let the model distinguish instructions to follow (system) from input to respond to (user) from its own prior responses to stay consistent with (assistant). This format is what every chatbot, API wrapper, and agent framework uses under the hood.
 
-These role labels are conventions the model learned during training — strong signals, but not hard rules. A sufficiently clever message in the "user" slot can override instructions from the "system" slot — a vulnerability called prompt injection, which we'll cover in Part III.
+These role labels are conventions the model learned during training — strong signals, but not hard rules. A sufficiently clever message in the "user" slot can override instructions from the "system" slot — a vulnerability called **prompt injection** (→ What We Didn't Cover).

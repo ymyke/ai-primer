@@ -10,34 +10,26 @@ People *using* AI systems, not people building them. Average white-collar worker
 
 ## Structure
 
-### Three-Part Arc
+### Nine Chapters + Closing Page
 
-| Section | Role | Part |
-|---|---|---|
-| The Plain LLM | The atomic unit | I: The Evolution |
-| The Chatbot | Adds conversation | I: The Evolution |
-| The System Prompt | Programs behavior | I: The Evolution |
-| Structured Output | Machine-readable responses | I: The Evolution |
-| Tool Use | LLM can act | I: The Evolution |
-| The Agentic Loop | Autonomous loops | I: The Evolution |
-| Multi-Agent | Division of labor | I: The Evolution |
-| RAG | External knowledge | II: What the Model Sees |
-| Multimodality | Broader input types | II: What the Model Sees |
-| Thinking Models | Deeper reasoning | II: What the Model Sees |
-| Context Engineering | Orchestrating all of the above | II: What the Model Sees |
-| Routing | Cost/quality optimization | III: (tbd) |
-| Security & Risks | What can go wrong | III: (tbd) |
+A dependency chain from simple LLM to autonomous multi-agent systems, with two additions: Multimodality (a branch extending the token concept from §1) and Context Engineering (a synthesis chapter tying everything together).
 
-**Part I — The Evolution:** A dependency chain from simple LLM to autonomous multi-agent systems. Each step requires the previous one. This is the spine of the primer.
+| # | Section | Role |
+|---|---------|------|
+| 1 | The Plain LLM | The atomic unit: tokens, statelessness, next-word prediction |
+| 2 | Multimodality | Branch: non-text inputs are tokens too, with lossy compression |
+| 3 | The Chatbot | Adds conversation via history resend |
+| 4 | The System Prompt | Programs behavior with hidden instructions |
+| 5 | Structured Output | Machine-readable responses |
+| 6 | Tool Use | LLM can act via external tools |
+| 7 | The Agentic Loop | Autonomous loops: plan, act, observe, repeat |
+| 8 | Multi-Agent | Division of labor via orchestrator + subagents |
+| 9 | Context Engineering | Synthesis: everything competes for the finite context window |
+| — | What We Didn't Cover | Closing page: thinking models, RAG, trust, security, routing |
 
-**Part II — What the Model Sees:** What flows through the system and how it's processed on each call. RAG (knowledge), Multimodality (input types), and Thinking (reasoning depth) are concrete dimensions. Context Engineering is the capstone — the discipline of orchestrating all of it within the finite context window. Alternatives considered: "Feeding the Model", "What Goes In". Note: "Thinking" is a stretch for "what the model sees" — address in content by framing it as "how deeply the model examines what it sees." Consider adding Prompt Engineering as a section here (currently folded into System Prompt in Part I).
+Chapters 1 and 3–8 form a strict dependency chain (each requires the previous). Chapter 2 is a branch off Chapter 1 (depends only on tokens). Chapter 9 is the capstone (depends on all preceding chapters).
 
-**Part III — In Practice:** What matters when you use AI systems for real.
-
-- **Routing** — choosing the right model for the job (cost/quality/speed trade-offs)
-- **Trusting the Output** — hallucinations (inventing facts, fabricating sources when pressed), overconfidence (never says "I'm not sure"), opinions on demand (confirmation bias, false neutrality), the verification rule (if you can't verify it, don't automate it)
-- **Security** — prompt injection, indirect prompt injection, data privacy, agent permissions
-- **When to Use AI** — where it genuinely helps (fuzzy input → structured output, first drafts, pattern recognition), where it's dangerous (guaranteed correctness, unverifiable outputs, replacing judgment with delegation)
+**Cut from v1 (in `_drafts/`):** Thinking Models, RAG, Routing, Trusting the Output, Security & Risks, When to Use AI. Summarized in the closing page.
 
 ### Main Sections
 

@@ -1,4 +1,4 @@
-# 11. Context Engineering — The Real Discipline
+# 9. Context Engineering — The Real Discipline
 
 ```
   ┌─────────────────────────────────────────────────────┐
@@ -47,6 +47,6 @@ MN generally, what are the things we want to convey in this section? what is imp
 - Attaching images = richer understanding, but a single high-res image can consume thousands of tokens
 - For agents: every loop step fills the context with tool results — after 20 steps the context can be full. This is why agents sometimes "lose track" mid-task or repeat themselves — earlier instructions or observations have been pushed out by newer tool results. Agent-builders spend enormous effort on managing this: truncating tool outputs, summarizing intermediate steps, deciding what the model really needs to see 
 
-What's commonly called "Prompt Engineering" — techniques like few-shot examples (§3), chain-of-thought reasoning (§10), role prompting, or careful phrasing — is real and useful. But these are all instances of the same thing: managing what goes into the context window. The prompt you type is perhaps 5% of what determines output quality in a production system. The rest is system prompts, RAG results, tool definitions, conversation history, and thinking tokens. That's why the more accurate term is Context Engineering: it's not just about the prompt — it's about orchestrating the entire context. MN really relevnat to contrast to prompt engineering here? but the middle part is helpful (only 5%...). is it accurate??
+What's commonly called "Prompt Engineering" — techniques like few-shot examples (§4), chain-of-thought reasoning, role prompting, or careful phrasing — is real and useful. But these are all instances of the same thing: managing what goes into the context window. The prompt you type is perhaps 5% of what determines output quality in a production system. The rest is system prompts, RAG results, tool definitions, conversation history, and thinking tokens. That's why the more accurate term is Context Engineering: it's not just about the prompt — it's about orchestrating the entire context. MN really relevnat to contrast to prompt engineering here? but the middle part is helpful (only 5%...). is it accurate??
 
 MN should we mention memory here and in 10 more?

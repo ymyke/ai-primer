@@ -1,4 +1,4 @@
-# 6. The Agentic Loop — Autonomous Action
+# 7. The Agentic Loop — Autonomous Action
 
 ```
   User: "Find an Italian restaurant near my office
@@ -47,7 +47,7 @@ In Section 5, the model made a single tool call and turned the result into an an
 
 An agent runs the same cycle repeatedly. It calls a tool, reads the result, decides what to do next, calls another tool, and keeps going until the task is done. In the example above, the model first looks up your office address (MN mention "in memory"?), then searches for nearby Italian restaurants, then checks which ones have outdoor seating tonight, then checks availability at 7pm, and finally makes the reservation — five tool calls, each one informed by the previous result.
 
-Mechanically, that's all there is to it. The LLM proposes a tool call. The application executes it and feeds the result back into the conversation — the same mechanism as the chat history from §2 (MN everywhere write section innstead of the §?). The LLM sees the updated conversation, decides whether the task is done or another step is needed, and if so, makes the next call.
+Mechanically, that's all there is to it. The LLM proposes a tool call. The application executes it and feeds the result back into the conversation — the same mechanism as the chat history from §3 (MN everywhere write section innstead of the §?). The LLM sees the updated conversation, decides whether the task is done or another step is needed, and if so, makes the next call.
 
 The application sets guardrails to keep the loop in check: a maximum number of steps, a timeout, a cost budget, and often a requirement for human approval before high-impact actions like sending messages or spending money. Without guardrails, a confused agent could loop indefinitely or run up real costs.
 
@@ -63,7 +63,7 @@ Concrete escalation: ask an agent to "prepare a competitive analysis." With only
 
 Products like Claude Code, Cursor, or Claude's computer use feature are, at their core, an agentic loop with shell access. Dedicated tool integrations (Google Calendar, Gmail, Slack, CRM) are convenience on top: you *could* do everything via shell, but a dedicated `list_events()` call is more reliable and the model doesn't need to handle authentication tokens. MN is this really helpful? What are helpful things to say about these types (code cursors etc?)
 
-Some agents also maintain memory across sessions — not because the LLM remembers, but because the application stores notes and loads them into context next time (the same illusion from §2, at a larger scale).
+Some agents also maintain memory across sessions — not because the LLM remembers, but because the application stores notes and loads them into context next time (the same illusion from §3, at a larger scale).
 
 When someone says "we're deploying an agent," the first question to ask is: *what tools does it have?* That tells you more about what it can do — and what can go wrong — than any other detail. MN is this valuable?
 

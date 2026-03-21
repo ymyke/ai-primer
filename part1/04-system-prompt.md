@@ -1,4 +1,4 @@
-# 3. The System Prompt — Programming Behavior
+# 4. The System Prompt — Programming Behavior
 
 In Section 2 we saw that the model receives a list of messages with roles. The system prompt is the first message in that list — written not by you, but by whoever built the product. It steers how the model behaves before you say a word, and it's where tool definitions, guardrails, and safety constraints live.
 
@@ -25,6 +25,6 @@ A typical system prompt defines:
 - **Rules and constraints** — "Never discuss competitors," "Always cite your sources," "Decline medical advice"
 - **Context and knowledge** — background information the model should use
 - **Examples** — sample exchanges that show the desired behavior
-- **Tool definitions** — which tools the model can use, and how to call them (more on this in §5)
+- **Tool definitions** — which tools the model can use, and how to call them (more on this in §6)
 
 The system prompt occupies space in the context window on every call — a long system prompt means less room for your conversation. This is why system prompts in production are kept concise: every word competes with the messages, tool definitions, and other content the model needs to see.
