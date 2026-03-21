@@ -5,7 +5,7 @@
        │
        ▼
   ┌──────────┐
-  │  Router   │
+  │  Router  │
   └────┬─────┘
        │
        ├── Simple ("What time is it in Tokyo?")
@@ -15,7 +15,7 @@
        │         └──▶  Mid-tier model (balanced)
        │
        └── Complex ("Compare these two contracts clause by clause")
-                  └──▶  Flagship model (slow, expensive, smart)
+                 └──▶  Flagship model (slow, expensive, smart)
 ```
 
 In practice, you don't send every request to the most powerful (and most expensive) model. **Routing** decides which model handles a request — based on complexity, cost, and latency.
@@ -26,5 +26,7 @@ In practice, you don't send every request to the most powerful (and most expensi
 - **Cascading** — Try the cheap model first; if the answer is uncertain or poor, escalate to the bigger one
 
 **Why it matters:** Flagship models can be 30x more expensive per token than small models, and most work is simple — 80% of requests don't need the top-tier model.
+
+MN this section is a bit thin? could be that it just is. but let's list the things a user should know about this topic. is the section worthwhile to keep or shall we dump it? is one aspect that the user should decide consciously which model to take ("manual routing"?)
 
 ---

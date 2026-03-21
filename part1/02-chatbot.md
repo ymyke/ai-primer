@@ -9,7 +9,7 @@ The LLM from Section 1 has no memory — each call starts from zero. A chatbot c
   └────────┬─────────┘              │ Assistant: "Hello Max!"          │
            │                        │ User: "What's my name?"          │
            ▼                        └────────────────┬─────────────────┘
-    ┌─────────────┐                                │
+    ┌─────────────┐                                │ MN from here misaligned
     │     LLM     │                                ▼
     └─────────────┘                         ┌─────────────┐
            │                                │     LLM     │
@@ -40,7 +40,7 @@ Remove that history, and the same question fails:
 
 **The LLM itself has no memory.** Every round, the entire conversation history is sent again as input. The chatbot is an application *around* the LLM that manages this history and includes it with every call.
 
-This explains why long conversations eventually break off (context window full), why the model "forgets" what was said 100 messages ago, and why each message in a long chat costs more — or hits rate limits sooner — because of the growing token count. Some products manage this by summarizing older messages to free up space — trading accurate recall of early messages for more room to work with.
+This explains why long conversations eventually break off (context window full), why the model "forgets" what was said 100 (MN "many" instead of 100?) messages ago, and why each message in a long chat costs more — or hits rate limits sooner — because of the growing token count. Some products manage this by summarizing older messages to free up space — trading accurate recall of early messages for more room to work with.
 
 What products like ChatGPT call "memory" is built on the same principle — with an added step: key facts from past conversations are extracted, stored separately, and included in the context on each call (a lightweight form of RAG, covered in Part II).
 
