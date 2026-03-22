@@ -29,7 +29,7 @@
                     Text
 ```
 
-Modern LLMs don't just process text. **Multimodal models** can analyze images, read PDFs, and transcribe audio. This is genuinely useful — you can ask a model to summarize a slide deck, inspect a screenshot, read a diagram, or transcribe a meeting recording, all directly.
+Section 1 showed that LLMs process everything as tokens. That's true even when the input is an image, a PDF, or an audio recording. **Multimodal models** can analyze images, read PDFs, and transcribe audio — you can ask a model to summarize a slide deck, inspect a screenshot, read a diagram, or transcribe a meeting recording, all directly.
 
 But to use multimodality well, it helps to understand what's actually happening underneath. The short version: **everything gets compressed into tokens.**
 
@@ -82,6 +82,4 @@ The common thread: multimodal AI is not "human-level seeing." It's a lossy compr
 
 **Rule of thumb:** Use multimodal input for triage, summarization, and first-pass interpretation. For high-stakes work, convert the raw input into clean text or structured data first, then let the model reason over that. Not because multimodality is bad — it is improving rapidly — but because structured inputs are more controllable and auditable.
 
-<!-- *→ See [Under the Hood: From Pixels to Vectors](uth.md#from-pixels-to-vectors) for how images and text are converted into the vectors the LLM actually processes.* -->
-
----
+With the token foundation extended to all input types, Section 3 turns to a different question: how does the LLM remember what you said five minutes ago?

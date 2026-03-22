@@ -1,3 +1,5 @@
+<!-- Editorial: Mental model gap = LOW. Common wrong intuition: "Use the best model for everything." Reality: Different models for different tasks; 90% of tasks don't need the most powerful model. Consider folding into "When to Use AI" or treating as a short sidebar. -->
+
 # 12. Routing — The Right Model for the Job
 
 ```

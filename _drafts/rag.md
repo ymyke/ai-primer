@@ -1,3 +1,5 @@
+<!-- Editorial: Mental model gap = MODERATE. Common wrong intuition: "Just upload all our documents and the AI will know them." Reality: It searches then reads on each call; quality depends on retrieval, not just access. -->
+
 # 10. RAG — Tapping External Knowledge
 
 ```

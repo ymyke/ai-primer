@@ -1,3 +1,5 @@
+<!-- Editorial: Mental model gap = HIGH. Common wrong intuition: "The AI is reasoning step by step." Reality: CoT faithfulness as low as 25% (Anthropic); visible "thinking" may not reflect actual computation; longer ≠ better. -->
+
 # 9. Thinking Models — The Inner Monologue
 
 MN is it think models or reasoning models?

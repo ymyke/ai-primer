@@ -45,7 +45,8 @@ pipeline vom foundation-model über das finetuning und alignment über preprompt
 
 - reasoning models the more correct term for thinking models?
 - link to https://platform.openai.com/tokenizer ?
-- resolve MN comments in 02-multimodality.md (7 comments) and 09-context-engineering.md (10 comments)
+- resolve MN comments in 02-multimodality.md (7 comments) and 09-context-engineering.md (10 comments) — DONE
+- future: "Diving Deeper" optional subsections (technical depth for curious readers). Content in _drafts/diving-deeper.md. May be collapsible/hidden in final format. Good for: internal mechanics, embeddings, encoding details, architecture concepts.
 - title decision (see candidates below)
 - consider: have security and api (and maybe other uth topics) as "horizontal" layers that go through all the sections?
 - disclaimer at the end that says that AI is of course much more than what we discussed here — partially addressed in closing page, revisit

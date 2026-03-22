@@ -1,3 +1,5 @@
+<!-- Editorial: Mental model gap = HIGH. Common wrong intuition: "I'm just chatting, what's the security risk?" Reality: Prompt injection is unsolved; content the AI reads can hijack it; agent permissions amplify risk. -->
+
 # 14. Security & Risks
 
 AI systems — especially autonomous agents — introduce specific security risks.

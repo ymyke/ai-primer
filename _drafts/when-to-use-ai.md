@@ -1,3 +1,6 @@
+<!-- Editorial: Mental model gap = HIGH. Common wrong intuition: "AI is great for everything" / "AI can't be trusted." Reality: Sweet spot is fuzzy input → structured output; dangerous for unverifiable outputs; knowing when NOT to use it matters most. -->
+<!-- Note: This topic is missing from the "What We Didn't Cover" closing page. Consider adding: "When to Use AI — AI's sweet spot is turning messy input into structured output: summarizing, extracting, drafting, translating between formats. It's dangerous where you can't verify the result." -->
+
 # 15. When to Use AI — And When Not To
 
 AI is not universally helpful. Knowing where it adds value and where it creates risk is arguably the most practical skill in this entire primer.

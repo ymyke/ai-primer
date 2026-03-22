@@ -1,3 +1,5 @@
+<!-- Editorial: Mental model gap = VERY HIGH. Common wrong intuition: "If the AI says it confidently, it's right." Reality: Confidence ≠ accuracy; fabricates sources when pressed; never says "I don't know"; confirms whatever bias you bring. -->
+
 # 13. Trusting the Output — When Confidence ≠ Correctness
 
 LLMs always sound confident. They never say "I'm not sure" or "I made that up." This creates a specific set of risks that aren't bugs — they're features of how language models work.
