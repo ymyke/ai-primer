@@ -51,6 +51,8 @@ pipeline vom foundation-model über das finetuning und alignment über preprompt
 - disclaimer at the end that says that AI is of course much more than what we discussed here — partially addressed in closing page, revisit
 - from primer.md: should there be an "agents in practice" section covering security, the trade-off between usefulness (more access) and security (less access)?
 - from part3-in-practice.md: "the more you force an LLM to create sth ('I want a reference for every bit of information you generate'), the higher the likelihood for a hallucination" — consider adding to trusting-output draft
+- make illus a little wider
+- ggf revise all referrences. example now: "conversation every time (§3)."
 
 # title candidates
 
@@ -92,3 +94,13 @@ Title candidates (from panel):
 - aigot.it
 - aiaiai.now, aiaiai.rocks, aiaiai.education
 - aiaiai.academy, aiaiai.fit, aiaiai.guide, .aiaiai.in
+
+
+
+# ideas for future work
+
+- Add under the hood section
+- Add glossary
+- Add more sections from _drafts/, maybe split into different parts (as we had at some
+  point in the past, see commit 5576fa187d186c9dadc6fb56fd0d92ed27782e3e)
+- Add links to other articles? (See also research-articles.md)
