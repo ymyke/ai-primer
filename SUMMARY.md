@@ -11,4 +11,3 @@
 * [8. Multi-Agent](part1/08-multi-agent.md)
 * [9. Context Engineering](part1/09-context-engineering.md)
 * [What We Didn't Cover](part1/what-we-didnt-cover.md)
-* [Glossary](glossary.md)

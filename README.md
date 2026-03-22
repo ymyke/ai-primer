@@ -9,5 +9,3 @@ When you use an AI chatbot, it looks like one thing: a text box that gives you a
 This primer takes them apart, layer by layer: from a stateless text predictor to multimodal input, conversational memory, system prompts, tool use, autonomous agents, multi-agent systems, and the finite context window that constrains them all. By the end, you'll understand not just what AI can do, but *why* — and where the limits come from.
 
 ---
-
-## [Glossary](glossary.md)
