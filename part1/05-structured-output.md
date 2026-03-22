@@ -1,7 +1,7 @@
 # 5. Structured Output — Machine Talks to Machine
 
 ```
-  Prompt: "Here are three restaurant reviews. MN better: below is a list of restaurant reviews?
+  Prompt: "Below is a list of restaurant reviews.
            Extract the details and structure
            your response as follows:
            {

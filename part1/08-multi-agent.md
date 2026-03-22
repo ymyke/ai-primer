@@ -35,6 +35,6 @@ The system splits it. The orchestrator agent delegates each subtask to a **subag
 - **Faster results** — independent subtasks can run simultaneously.
 - **One caveat** — because subtasks run independently, the pieces may not reference each other. The venue section of your party plan won't mention the menu, unless the orchestrator explicitly connects them.
 
-MN more cevates? e.g., the fact that the orch only sees what the subagent outputs? which can be too terse to identify broeader context or to identify wrong approahces a subagent might have pursued etc. (also pot pratical tip: instrtuct the orch to instruct the subagents to document everything in sep files for later review -- helpful? best practice?)
+- **Another caveat** — the orchestrator only sees each subagent's final summary, not all the work and dead ends along the way. If a subagent goes down the wrong path, the orchestrator may never know. This is why multi-agent results benefit from a human spot-check — skim the pieces for obvious mismatches before trusting the whole.
 
-**The practical takeaway:** When you give an AI a complex task, structure it as clear, separable subtasks. "Find a venue, plan the menu, and create invitations" is easier for the system to delegate than "plan a party." MN this has always been good advice, also way before multiagents. is this nevertheless useful?
+**The practical takeaway:** When you give an AI a complex task, structure it as clear, separable subtasks. "Find a venue, plan the menu, and create invitations" works better than "plan a party" — not just because clarity always helps, but because the system can hand each piece to a focused subagent with its own full context window.

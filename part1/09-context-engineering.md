@@ -7,16 +7,17 @@
   │  ┌─────────────────────────────────────────────┐    │
   │  │  System Prompt (persona, rules, format)      │    │
   │  ├─────────────────────────────────────────────┤    │
-  │  │  Few-shot examples                           │    │ MN we never talked abotu few-shot examples. why is this in here?
+  │  │  Few-shot examples (sample Q&As showing      │    │
+  │  │    the model the desired behavior — see §4)   │    │
   │  ├─────────────────────────────────────────────┤    │
   │  │  RAG results (relevant documents)            │    │
   │  ├─────────────────────────────────────────────┤    │
   │  │  Images / file attachments                   │    │
-  │  │  ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  │    │
+  │  │  (visual data — converted to tokens)         │    │
   │  ├─────────────────────────────────────────────┤    │
-  │  │  Tool definitions (available tools)          │    │ MN parens needed?
+  │  │  Tool definitions (available tools)          │    │
   │  ├─────────────────────────────────────────────┤    │
-  │  │  Conversation history (trimmed/filtered)     │    │ MN parentheses needed?
+  │  │  Conversation history (trimmed/filtered)     │    │
   │  ├─────────────────────────────────────────────┤    │
   │  │  Tool results from previous steps            │    │
   │  ├─────────────────────────────────────────────┤    │
@@ -25,28 +26,25 @@
   │                                                      │
   │  ▒▒▒▒▒▒▒▒▒▒▒▒ free space for output ▒▒▒▒▒▒▒▒▒▒▒▒  │
   └─────────────────────────────────────────────────────┘
-``` MN what do these part ░░░░░ signify?
+```
 
-Everything we've covered — system prompt, RAG results, images, tool definitions, conversation history, thinking tokens — competes for the **same limited space** in the context window. The LLM sees *exclusively* what's in this window. Nothing else exists for the model. (MN there's also the model's entire knowledge? is the text here misleading?)
+Everything we've covered — system prompt, RAG results, images, tool definitions, conversation history, thinking tokens — competes for the **same limited space** in the context window. The model also has its trained knowledge (the parameters from §1), but at runtime, the context window is the *only* input you can control. If a fact isn't in the window and wasn't in the training data, it doesn't exist for the model.
 
-The **harness** (MN suddently talking about harness here? a bit abruptly?) is everything *except* the LLM itself: the entire application code that surrounds and enables the model. Conversation management, RAG pipelines, tool execution, routing, the agentic loop — all harness. The LLM is the engine. The harness is the car.
+All of the machinery we've seen so far — the conversation management from §3, the tool execution from §6, the agentic loop from §7 — is built by developers, not the LLM. The industry term for this surrounding code is the **harness**: everything *except* the LLM itself. The LLM is the engine. The harness is the car.
 
-MN generally, what are the things we want to convey in this section? what is imporotant for the user to know? and how to structure it?
-
-**Context Engineering** is the discipline of building this harness so that the context window is optimally filled on every call: MN is this really the ideal definition of context engineering?
+**Context engineering** is the discipline of controlling what the model sees on every call — and what it doesn't. Concretely, it means designing across four dimensions:
 
 - **What goes in:** Which information does the model need to solve the current task well?
 - **What stays out:** Which old messages, irrelevant RAG results, or verbose tool outputs waste space?
-- **In what order:** Position matters more than you'd expect. Models weight information at the beginning and end of the context more strongly than the middle ("Lost in the Middle" effect). The reason is structural: each token can only "look back" at tokens before it, never forward. (MN why are tokens at the beginning of the prompt wighed more then?) Early tokens in a long prompt are processed without any awareness of what comes later. A 2025 Google Research paper demonstrated this dramatically: simply *repeating the entire prompt twice* — verbatim, no changes — improved accuracy by up to 76% on some tasks. Why? The second copy lets every token "see" the full prompt from the first copy, compensating for the blind spot. (Notably, thinking models showed no benefit — their reasoning step already compensates.)
+- **In what order:** Position matters. Models pay the most attention to the beginning and end of the context, and less to the middle — a well-documented pattern called the "Lost in the Middle" effect. This is why system prompts go at the very start. For long prompts, placing your most important instructions at the beginning and repeating key points near the end can noticeably improve results.
 - **In what format:** The same knowledge, structured differently, can produce dramatically different results.
 
-**Concrete trade-offs:** MN this para relevant?
+**Why this matters to you in practice:**
 - More RAG context = better informed, but less room for conversation
 - More tool definitions = more versatile, but the model gets less decisive about which to pick
 - Longer conversation history = more continuity, but higher cost and eventually quality degrades. That 50-message conversation? It's consuming context that could hold instructions or reference material
 - Attaching images = richer understanding, but a single high-res image can consume thousands of tokens
 - For agents: every loop step fills the context with tool results — after 20 steps the context can be full. This is why agents sometimes "lose track" mid-task or repeat themselves — earlier instructions or observations have been pushed out by newer tool results. Agent-builders spend enormous effort on managing this: truncating tool outputs, summarizing intermediate steps, deciding what the model really needs to see 
 
-What's commonly called "Prompt Engineering" — techniques like few-shot examples (§4), chain-of-thought reasoning, role prompting, or careful phrasing — is real and useful. But these are all instances of the same thing: managing what goes into the context window. The prompt you type is perhaps 5% of what determines output quality in a production system. The rest is system prompts, RAG results, tool definitions, conversation history, and thinking tokens. That's why the more accurate term is Context Engineering: it's not just about the prompt — it's about orchestrating the entire context. MN really relevnat to contrast to prompt engineering here? but the middle part is helpful (only 5%...). is it accurate??
+What's commonly called "Prompt Engineering" — techniques like providing examples, chain-of-thought reasoning, or careful phrasing — is real and useful. But for most AI products, the prompt you type is a small fraction of what determines output quality. The rest is system prompts, retrieved documents, tool definitions, conversation history, and thinking tokens — all managed automatically by the harness. That's why the more precise term is **context engineering**: it's not just about your prompt, it's about everything the model sees.
 
-MN should we mention memory here and in 10 more?

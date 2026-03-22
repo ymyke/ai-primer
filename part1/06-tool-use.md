@@ -1,8 +1,8 @@
-# 6. Tool Use — Hands for the LLM MN "Hands for the LLM"? Any ideas for better alternative?
+# 6. Tool Use — Acting on the World
 
 ```
   ┌──────────────────────────────────────────────────────┐
-  │  System Prompt:                                      │ MN why not just "System:" here?
+  │  System Prompt:                                      │
   │  "You are a helpful assistant."                      │
   │                                                      │
   │  Available tools:                                    │
@@ -24,7 +24,7 @@
               │  Application    │──── actual API call
               │  executes tool  │
               └────────┬────────┘
-                       │           MN arrowss from here no longer perfectly aligned with arrows up to here
+                       │
                        ▼
     Result: { temp: "28°C", condition: "humid" }
                        │
@@ -37,32 +37,33 @@
    "It's currently 28°C and humid in Tokyo."
 ```
 
-```
-Behind the scenes — what the LLM sees at each step: MN should this line be outside the code block?
 
+**Behind the scenes — what the LLM sees at each step:**
+
+```
 Step 1:  [system: "You are a helpful assistant.",
-          tools: [get_weather, web_search],      MN why not the same system promopt as above? why split into tools here?
+          tools: [get_weather, web_search],
           user: "What's the weather in Tokyo?"]
               → LLM responds with: tool_call: get_weather(city="Tokyo")
 
 Step 2:  [system: "...", tools: [...],
           user: "What's the weather in Tokyo?",
           assistant: tool_call: get_weather(city="Tokyo"),
-          tool: { temp: "28°C", condition: "humid" }]   MN why tool: and not result:? generally, whioch role are tool results under usually=?
+          tool: { temp: "28°C", condition: "humid" }]
               → LLM responds with: "It's currently 28°C and humid in Tokyo."
 ```
 
-**The crucial insight:** (MN this nece?) The LLM doesn't execute tools itself. It only decides *which* tool to call with *which* parameters. The application around the LLM performs the actual call and feeds the result back.
+The LLM doesn't execute tools itself. It only decides *which* tool to call with *which* parameters. The application around the LLM performs the actual call and feeds the result back.
 
-And the tool definitions? (MN maybe just state things instead of the rehotrical q in this case?) They're just text in the context window — typically part of the system prompt. The model has learned to recognize this format and generate matching structured calls.
+Tool definitions are just text in the context window — typically part of the system prompt. The model has learned to recognize this format and generate matching structured calls.
 
 **Typical tools:** Web search, database queries, API calls, file operations, email access, CRM access, code execution.
 
-One of these deserves a closer look. (MN Maybe better: "Code execution deserves a better look:"?) Most tools fetch information from the outside world (MN or manipulate information...?). Code execution is different — it lets the model *compute*, compensating for weaknesses built into how LLMs work.
+Code execution deserves a closer look. Most tools let the model fetch or manipulate information in the outside world — search the web, query a database, send an email. Code execution is different — it lets the model *compute*, compensating for weaknesses built into how LLMs work.
 
-**Why code execution changes everything:** (MN DOES it change ecerything? or is this blabla? What would be sth more interesring/specific to point out here re code execution? what is it that makes it stick out?) Remember the strawberry problem from section 1? The model can't count letters in "strawberry" because it never sees individual letters — only tokens. But give the model a code execution tool, and it writes `'strawberry'.count('r')` — correct, every time. You can often trigger this simply by asking the model to "use code." The model didn't get smarter. It got a calculator. The same applies to arithmetic, date calculations, sorting, and anything else where precise computation beats pattern matching. This is why the *same model* gives better answers in a product that has code execution than in one that doesn't.
+**Why code execution stands out:** Remember the strawberry problem from section 1? The model can't count letters in "strawberry" because it never sees individual letters — only tokens. But give the model a code execution tool, and it writes `'strawberry'.count('r')` — correct, every time. You can often trigger this simply by asking the model to "use code." The model didn't get smarter. It got a calculator. The same applies to arithmetic, date calculations, sorting, and anything else where precise computation beats pattern matching. This is why the *same model* gives better answers in a product that has code execution than in one that doesn't.
 
-MN maybe mention one  aspect here? code execution is an important tool for LLMs to naviagte on the probabilistic vs deterministic spectrum. if we specify a task as a prompt and let an llm executre that task 100 times, we get dozens of different outcomes. some with tiny variations and some with much laerger. if hwoevber the llm writes a little software tool taht automates the task, the 100 executions will be identical.
+There's a second reason code execution matters. Ask an LLM to perform a task — say, extract data from a document — and run it 100 times. You'll get dozens of slightly different results, some with small variations, some with large ones. Now ask the LLM to write a small program that performs the same task, and run *that* 100 times. The results are identical every time. Code execution lets the model move from probabilistic to deterministic — from "roughly right, differently each time" to "exactly right, every time."
 
 
 Tool integrations are increasingly standardized through protocols like **MCP (Model Context Protocol)**, which aim to make tools portable across different AI systems — define the tool once, use it with any model.

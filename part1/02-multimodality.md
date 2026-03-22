@@ -39,9 +39,9 @@ LLMs work on sequences of token-like units — always. Every input, regardless o
 
 For text, this is straightforward. Language is already sequential: words follow words, sentences follow sentences. The tokenizer (see §1) splits text into fragments, and the model processes them in order. This is the LLM's native mode.
 
-For everything else — images, audio, video, PDFs — the input first needs to be *translated and compressed* into a sequence of token-like units, and where things can go wrong. MN "and where things can go wrong"? some issue here because unconnected to hte sentence before gramatically?
+For everything else — images, audio, video, PDFs — the input first needs to be *translated and compressed* into a sequence of token-like units. This is where things can go wrong.
 
-### The translation step matters enormously MN drop or remplace enmormously?
+### The translation step matters
 
 **Images** must be turned from a 2D picture into a 1D sequence. The image is split into a grid of small patches, and each patch becomes a token-like unit. There's an inherent trade-off: larger patches mean fewer tokens (cheaper, faster) but lose fine detail; smaller patches preserve more detail but consume more of the context window (the space available for your conversation).
 
@@ -51,7 +51,7 @@ For everything else — images, audio, video, PDFs — the input first needs to 
 
 **PDFs** deserve special mention. A PDF is not "just a document." It can contain selectable text, scanned pages (images of text that aren't machine-readable), charts, photos, tables, multi-column layouts, and footnotes — all mixed together. In that sense, a PDF is often multimodal *itself*. That's why the same model can summarize one PDF perfectly, miss key details in another, or sometimes fail altogether.
 
-### The 2D problem MN are there any great alternative titles to consider? e.g., the layout problem? the lcoaion problem? "platzierung" in en? ...? use the spacial relationships term yo use in the prose?
+### The layout problem
 
 There's a deeper challenge: the real world is often 2D, 3D, or temporal — but the model consumes a 1D sequence of tokens. A page has rows and columns. A chart has axes and overlapping labels. A table has spatial structure. All of that must be flattened into a single stream.
 
@@ -73,14 +73,14 @@ A rough reliability ranking:
 | Structured tables (CSV, JSON) | Very high                                         |
 | PDFs                          | Medium — depends heavily on content               |
 | Images / screenshots          | Good for interpretation, weaker for exact details |
+| Audio (speech transcription)  | High — mature and accurate for major languages    |
 | Screenshots of tables         | Fragile                                           |
+| Audio (non-speech)            | Low — limited model support, unreliable           |
 | Video                         | Expensive and lossy                               |
-
-MN should we add audio? and differentiate between voice audio -> transcription and other audio?
 
 The common thread: multimodal AI is not "human-level seeing." It's a lossy compression of reality into tokens — powerful and convenient, but fundamentally different from how a person reads a document.
 
-**Rule of thumb:** Use multimodal input for triage, summarization, and first-pass interpretation. For high-stakes work, the practical pattern is: convert the raw input into clean text or structured data first, then let the model reason over that. Not because multimodality is bad, but because structured inputs are more controllable and auditable. MN is this really "erhärtet" and reliable the way it is worded here? are the statements here correct for modern (2026) multimodal models as well?
+**Rule of thumb:** Use multimodal input for triage, summarization, and first-pass interpretation. For high-stakes work, convert the raw input into clean text or structured data first, then let the model reason over that. Not because multimodality is bad — it is improving rapidly — but because structured inputs are more controllable and auditable.
 
 <!-- *→ See [Under the Hood: From Pixels to Vectors](uth.md#from-pixels-to-vectors) for how images and text are converted into the vectors the LLM actually processes.* -->
 
