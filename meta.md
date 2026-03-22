@@ -89,6 +89,6 @@ Each section should be evaluated against: (1) how wrong is the common intuition?
 
 **Implication for Routing:** The mental model gap is small — the concept is straightforward once stated. Consider folding into "When to Use AI" or treating as a short sidebar rather than a full section.
 
-## Building the Website
+## Publishing
 
-`python3 build.py` generates a multi-page HTML site in `site/`. Open `site/index.html` in a browser. Requires `pandoc`.
+The primer is published via GitBook, driven by `SUMMARY.md`.
