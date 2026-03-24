@@ -6,7 +6,7 @@
   │                                        │
   │   📝 Text   🖼️ Images   📄 PDFs       │
   │   🎤 Audio  📹 Video   📊 Tables      │
-  └─────────────────────┬───────────────────┘
+  └─────────────────────┬──────────────────┘
                         │
               Each input type has its own
               "translator" that converts it
