@@ -1,5 +1,6 @@
 # Future Ideas
 
+- Add a contributing file?
 - "Diving Deeper" optional subsections (technical depth for curious readers). Some
   content in _drafts/diving-deeper.md. May be collapsible/hidden in final format. Good
   for: internal mechanics, embeddings, encoding details, architecture concepts.
