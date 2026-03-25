@@ -197,7 +197,7 @@ TEMPLATE = """\
 
     .sidebar-logo:hover {{ color: var(--accent); text-decoration: none; }}
 
-    .logo-mark {{ font-family: var(--font-code); letter-spacing: -0.2em; margin-right: 0.3em; }}
+    .logo-mark {{ font-family: var(--font-code); letter-spacing: -0.2em; margin-left: 0.2em; }}
 
 
     .theme-toggle {{
@@ -483,7 +483,7 @@ TEMPLATE = """\
   </button>
   <nav class="sidebar">
     <div class="sidebar-header">
-      <a href="index.html" class="sidebar-logo"><span class="logo-mark">·&gt;</span> AI Primer</a>
+      <a href="index.html" class="sidebar-logo">AI Primer <span class="logo-mark">·&gt;</span></a>
     </div>
     <div class="sidebar-links">
       {sidebar}
