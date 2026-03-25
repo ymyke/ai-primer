@@ -80,6 +80,7 @@ def build_sidebar(pages, current_idx):
             )
         else:
             items.append(f'<a href="{href}"{cls}>{title}</a>')
+    items.append('<a href="index.html" class="sidebar-about">About</a>')
     return '\n'.join(items)
 
 
@@ -250,6 +251,8 @@ TEMPLATE = """\
     }}
 
     .sidebar-links a.active .ch-num {{ color: var(--accent); }}
+
+    .sidebar-about {{ margin-top: 0.5rem; }}
 
     .sidebar-footer {{
       padding: 1rem 1.5rem;
