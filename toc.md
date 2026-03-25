@@ -1,6 +1,6 @@
-# Summary
+# Table of Contents
 
-* [AI Primer](README.md)
+* [AI Primer](sections/index.md)
 * [1. The Plain LLM](sections/01-plain-llm.md)
 * [2. Multimodality](sections/02-multimodality.md)
 * [3. The Chatbot](sections/03-chatbot.md)

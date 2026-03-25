@@ -25,7 +25,7 @@ A dependency chain from simple LLM to autonomous multi-agent systems, with two a
 
 Chapters 1 and 3–8 form a strict dependency chain (each requires the previous). Chapter 2 is a branch off Chapter 1 (depends only on tokens) (handled via opening/closing transitions in the section prose). Chapter 9 is the capstone (depends on all preceding chapters).
 
-**Cut from v1 (in `_drafts/`):** Thinking Models, RAG, Routing, Trusting the Output, Security & Risks, When to Use AI. Summarized in the closing page.
+**Cut from v1 (in `_drafts/`):** Thinking Models, RAG, Routing, Trusting the Output, Security & Risks, When to Use AI. Summarized in the closing page. Future topic ideas in `_drafts/future-ideas.md`.
 
 ### Main Sections
 
@@ -63,7 +63,6 @@ Each numbered section should be **self-contained** and explain the most importan
 
 - **Concrete over generic.** "Summarize these 12 restaurant reviews" beats "Summarize this document." Vivid scenarios the reader can picture.
 - **Universal over niche.** If the reader needs even a moment to process what the example is about, pick a different one. No domain expertise required.
-- **Transparent.** The reader looks *through* the example at the concept, not *at* the example. The example is a window, not a painting.
 - **Double duty.** Each example earns its place twice: it illustrates the technical concept AND feels like a real task someone would do.
 - **Varied domains.** No single domain forced across all sections. Each concept gets the example that serves it best — everyday work (emails, meetings, documents), everyday life (travel, cooking, shopping).
 - **No footnotes.** If an example needs explaining, it's the wrong example.
@@ -89,20 +88,13 @@ See [panel.md](panel.md) — content panel (what to teach, how to teach it) and 
 - **No emojis** in diagrams (consistent with prose style)
 - **Cross-references** in diagrams: use "section N" (not §)
 
-## Diagram Images
-
-GitBook's monospace font (IBM Plex Mono) breaks box-drawing character alignment.
-Diagrams are rendered as PNG images using Fira Code instead.
-
-**How it works:**
-- ASCII diagrams live in HTML comments (`<!-- diagram:NAME ... -->`) in each section
-- Below each comment is `![](../images/NAME.png)` — GitBook renders the image, ignores the comment
-- `python3 images/render.py` extracts diagrams from the comments and renders PNGs
-- All images are rendered at the same width so font size is consistent across diagrams
-- Edit the ASCII art inside the comment, run `render.py`, commit the updated PNG
-
-**Files:** `images/render.py` (script), `images/FiraCode.ttf` (font), `images/*.png` (output)
-
 ## Publishing
 
-The primer is published via GitBook, driven by `SUMMARY.md`.
+The primer is published as a static HTML site via GitHub Pages, built by `build.py` from `toc.md`.
+
+```
+pip install mistune
+python3 build.py
+```
+
+Generates a static HTML site in `docs/`.

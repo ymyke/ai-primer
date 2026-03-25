@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400');
+    text { font-family: 'Fira Code', monospace; font-size: 48px; fill: white; letter-spacing: -0.2em; }
+  </style>
+  <text x="4" y="48">·&gt;</text>
+</svg>

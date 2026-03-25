@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2. Multimodality — AI Primer</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t)})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-display: 'Outfit', system-ui, sans-serif;
+      --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+      --font-code: 'Fira Code', Consolas, monospace;
+
+      --bg: #ffffff;
+      --fg: #171717;
+      --fg-muted: #6b7280;
+      --fg-faint: #b0b6bf;
+      --accent: #4f46e5;
+      --accent-hover: #4338ca;
+      --border: #f0f0f0;
+      --code-bg: #f8f8f9;
+      --sidebar-w: 240px;
+      --content-max: 640px;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0a0a0a;
+      --fg: #e5e5e5;
+      --fg-muted: #999;
+      --fg-faint: #555;
+      --accent: #a78bfa;
+      --accent-hover: #c4b5fd;
+      --border: #1e1e1e;
+      --code-bg: #111111;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.75;
+      font-size: 1rem;
+      display: flex;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- Progress --- */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 1px;
+      width: 0%;
+      background: var(--accent);
+      z-index: 1000;
+      transition: width 0.15s linear;
+    }
+
+    /* --- Sidebar --- */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--bg);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 2.5rem 1.5rem 1.25rem;
+    }
+
+    .sidebar-top {
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar-logo {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--fg);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      transition: color 0.15s ease;
+    }
+
+    .sidebar-logo:hover { color: var(--accent); text-decoration: none; }
+
+    .logo-mark { font-family: var(--font-code); letter-spacing: -0.2em; margin-right: 0.3em; }
+
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--fg-faint);
+      padding: 0.25rem;
+      display: flex;
+      align-items: center;
+      transition: color 0.15s ease;
+    }
+
+    .theme-toggle:hover { color: var(--fg); }
+    .theme-toggle svg { width: 15px; height: 15px; }
+
+    html[data-theme="light"] .icon-sun { display: none; }
+    html[data-theme="dark"] .icon-moon { display: none; }
+
+    .sidebar-links { padding: 0; flex: 1; }
+
+    .sidebar-links a {
+      display: flex;
+      align-items: baseline;
+      gap: 0.2rem;
+      padding: 0.3rem 1.5rem;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+      text-decoration: none;
+      line-height: 1.6;
+      transition: color 0.15s ease;
+    }
+
+    .sidebar-links a:hover {
+      color: var(--fg);
+      text-decoration: none;
+    }
+
+    .sidebar-links a.active {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .ch-num {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--fg-faint);
+    }
+
+    .sidebar-links a.active .ch-num { color: var(--accent); }
+
+    .sidebar-footer {
+      padding: 1rem 1.5rem;
+    }
+
+    /* --- Mobile menu --- */
+    .mobile-menu-btn {
+      display: none;
+      position: fixed;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 200;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 2.25rem;
+      height: 2.25rem;
+      cursor: pointer;
+      color: var(--fg-muted);
+      font-size: 0;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu-btn svg { width: 16px; height: 16px; }
+
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+      z-index: 50;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    /* --- Content --- */
+    .content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 2.5rem 4rem;
+      max-width: calc(var(--content-max) + 8rem);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* --- Typography --- */
+    h1 {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin: 0 0 2rem;
+      letter-spacing: -0.04em;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 3.5rem 0 1rem;
+      letter-spacing: -0.025em;
+    }
+
+    h3 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.4;
+      margin: 2.5rem 0 0.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    p { margin: 1rem 0; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-thickness: 1px;
+    }
+
+    strong { font-weight: 600; }
+
+    /* --- Code & Diagrams --- */
+    code {
+      font-family: var(--font-code);
+      font-size: 0.85em;
+      background: var(--code-bg);
+      padding: 0.15em 0.35em;
+      border-radius: 4px;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      margin: 1.75rem 0;
+      line-height: 1.45;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      font-size: 0.85rem;
+      line-height: inherit;
+      display: block;
+    }
+
+    /* --- Blockquotes --- */
+    blockquote {
+      border-left: 2px solid var(--border);
+      padding-left: 1.25rem;
+      margin: 1.5rem 0;
+      color: var(--fg-muted);
+    }
+
+    blockquote p { margin: 0.5rem 0; }
+
+    /* --- Tables --- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--fg-muted);
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    /* --- Lists --- */
+    ul, ol { margin: 1rem 0; padding-left: 1.5rem; }
+    li { margin: 0.35rem 0; }
+    li::marker { color: var(--fg-faint); }
+
+    /* --- Misc --- */
+    hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+    img { max-width: 100%; height: auto; margin: 1.5rem 0; }
+
+    /* --- Prev/Next --- */
+    .prev-next {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+    }
+
+    .prev-next a {
+      max-width: 48%;
+      color: var(--fg-muted);
+      font-weight: 500;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .prev-next a:hover { color: var(--accent); background: var(--code-bg); text-decoration: none; }
+
+    /* --- Scrollbar --- */
+    ::-webkit-scrollbar { width: 0px; }
+    ::selection { background: var(--accent); color: #fff; }
+
+    /* --- Mobile --- */
+    @media (max-width: 860px) {
+      .mobile-menu-btn { display: flex; }
+      .mobile-overlay { display: block; }
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        background: var(--bg);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 2px 0 24px rgba(0,0,0,0.06);
+      }
+
+      .mobile-overlay.open { opacity: 1; }
+
+      .content {
+        margin-left: 0;
+        padding: 2rem 1.5rem;
+        padding-top: 4rem;
+        max-width: 100%;
+      }
+
+      h1 { font-size: 1.5rem; }
+    }
+
+    @media print {
+      .sidebar, .mobile-menu-btn, .progress-bar, .prev-next, .mobile-overlay { display: none !important; }
+      .content { margin-left: 0; max-width: 100%; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar"></div>
+  <div class="mobile-overlay"></div>
+  <button class="mobile-menu-btn" aria-label="Toggle navigation">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-logo"><span class="logo-mark">·&gt;</span> AI Primer</a>
+    </div>
+    <div class="sidebar-links">
+      <a href="01-plain-llm.html"><span class="ch-num">1.</span>The Plain LLM</a>
+<a href="02-multimodality.html" class="active"><span class="ch-num">2.</span>Multimodality</a>
+<a href="03-chatbot.html"><span class="ch-num">3.</span>The Chatbot</a>
+<a href="04-system-prompt.html"><span class="ch-num">4.</span>The System Prompt</a>
+<a href="05-structured-output.html"><span class="ch-num">5.</span>Structured Output</a>
+<a href="06-tool-use.html"><span class="ch-num">6.</span>Tool Use</a>
+<a href="07-agentic-loop.html"><span class="ch-num">7.</span>The Agentic Loop</a>
+<a href="08-multi-agent.html"><span class="ch-num">8.</span>Multi-Agent</a>
+<a href="09-context-engineering.html"><span class="ch-num">9.</span>Context Engineering</a>
+<a href="what-we-didnt-cover.html">What We Didn't Cover</a>
+    </div>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" aria-label="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </nav>
+  <main class="content">
+    <article><h1>2. Multimodality — More Than Text</h1>
+<pre><code>  ┌────────────────────────────────────────┐
+  │              Inputs                    │
+  │                                        │
+  │   Text    Images    PDFs               │
+  │   Audio   Video     Tables             │
+  └─────────────────────┬──────────────────┘
+                        │
+              Each input type has its own
+              &quot;translator&quot; that converts it
+              into the same internal format
+              the LLM already understands
+                        │
+                        ▼
+            ┌───────────────────────┐
+            │  Same internal format │
+            │  as text              │
+            └───────────┬───────────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │     LLM     │  ← processes images, audio,
+                 │             │    and text identically
+                 └──────┬──────┘
+                        │
+                        ▼
+                      Text
+</code></pre>
+<p>Section 1 showed that LLMs process everything as tokens. That's true even when the input is an image, a PDF, or an audio recording. <strong>Multimodal models</strong> can analyze images, read PDFs, and transcribe audio — you can ask a model to summarize a slide deck, inspect a screenshot, read a diagram, or transcribe a meeting recording, all directly.</p>
+<p>But to use multimodality well, it helps to understand what's actually happening underneath. The short version: <strong>everything gets compressed into tokens.</strong></p>
+<h3>It always comes back to tokens</h3>
+<p>LLMs work on sequences of token-like units — always. Every input, regardless of type, must be translated into that format before the model can process it.</p>
+<p>For text, this is straightforward. Language is already sequential: words follow words, sentences follow sentences. The tokenizer (see section 1) splits text into fragments, and the model processes them in order. This is the LLM's native mode.</p>
+<p>For everything else — images, audio, video, PDFs — the input first needs to be <em>translated and compressed</em> into a sequence of token-like units. This is where things can go wrong.</p>
+<h3>The translation step matters</h3>
+<p><strong>Images</strong> must be turned from a 2D picture into a 1D sequence. The image is split into a grid of small patches, and each patch becomes a token-like unit. There's an inherent trade-off: larger patches mean fewer tokens (cheaper, faster) but lose fine detail; smaller patches preserve more detail but consume more of the context window (the space available for your conversation).</p>
+<p><strong>Audio</strong> is chopped into short time slices, each converted into a token-like unit. Relatively straightforward, but long recordings eat tokens fast.</p>
+<p><strong>Video</strong> is the hardest — it's 2D images <em>plus</em> time. The token cost is enormous, and most systems can only process short clips or heavily sampled frames.</p>
+<p><strong>PDFs</strong> deserve special mention. A PDF is not &quot;just a document.&quot; It can contain selectable text, scanned pages (images of text that you can't select or search), charts, photos, tables, multi-column layouts, and footnotes — all mixed together. In that sense, a PDF is often multimodal <em>itself</em>. That's why the same AI system can summarize one PDF perfectly, miss key details in another, or sometimes fail altogether.</p>
+<h3>The layout problem</h3>
+<p>There's a deeper challenge: the real world is often 2D, 3D, or temporal — but the model consumes a 1D sequence of tokens. A page has rows and columns. A chart has axes and overlapping labels. A table has spatial structure. All of that must be flattened into a single stream.</p>
+<p>This is why spatial relationships are fragile. The model may read a chart's trend correctly but confuse which label belongs to which bar. Or it may parse a table but mix up columns. The richer the original layout, the harder the compression.</p>
+<h3>Where it goes wrong</h3>
+<ol>
+<li><strong>Detail loss</strong> — Small text, tiny numbers, blurry screenshots, dense tables. The root cause: compression into a limited number of token-like units loses fine detail.</li>
+<li><strong>Structure confusion</strong> — Rotated text, overlapping labels, complex layouts, table misalignment. The model receives a 1D sequence from a 2D layout, so spatial relationships are fragile.</li>
+<li><strong>Overconfidence</strong> — The model doesn't say &quot;I'm not sure about this number.&quot; It reads a chart value as 4.2M when it's actually 4.7M, and presents it with the same confidence as everything else.</li>
+</ol>
+<h3>Text is still king</h3>
+<p>A rough reliability ranking:</p>
+<table>
+<thead>
+<tr>
+  <th>Input type</th>
+  <th>Reliability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Clean text</td>
+  <td>Highest</td>
+</tr>
+<tr>
+  <td>Structured tables (CSV, JSON)</td>
+  <td>Very high</td>
+</tr>
+<tr>
+  <td>PDFs</td>
+  <td>Medium — depends heavily on content</td>
+</tr>
+<tr>
+  <td>Images / screenshots</td>
+  <td>Good for interpretation, weaker for exact details</td>
+</tr>
+<tr>
+  <td>Audio (speech transcription)</td>
+  <td>High — mature and accurate for major languages</td>
+</tr>
+<tr>
+  <td>Screenshots of tables</td>
+  <td>Fragile</td>
+</tr>
+<tr>
+  <td>Audio (non-speech)</td>
+  <td>Low — limited model support, unreliable</td>
+</tr>
+<tr>
+  <td>Video</td>
+  <td>Expensive and lossy</td>
+</tr>
+</tbody>
+</table>
+<p>The common thread: a multimodal model is not &quot;human-level seeing.&quot; It's a lossy compression of reality into tokens — powerful and convenient, but fundamentally different from how a person reads a document.</p>
+<p><strong>Rule of thumb:</strong> The closer your input is to clean text, the more reliably the model handles it — text is its native mode. Use multimodal input for triage, summarization, and first-pass interpretation. For high-stakes work, convert the raw input into clean text or structured data first, then let the model reason over that. Not because multimodality is bad — it is improving rapidly — but because structured inputs are more controllable and auditable.</p>
+<p>With the token foundation extended to all input types, Section 3 turns to a different question: how does the LLM remember what you said five minutes ago?</p>
+</article>
+    <div class="prev-next">
+      <div><a href="01-plain-llm.html">← 1. The Plain LLM</a></div>
+      <div><a href="03-chatbot.html">3. The Chatbot →</a></div>
+    </div>
+  </main>
+  <script>
+    (function() {
+      var bar = document.querySelector('.progress-bar');
+      window.addEventListener('scroll', function() {
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = h > 0 ? (window.scrollY / h * 100) + '%' : '0%';
+      });
+      var btn = document.querySelector('.mobile-menu-btn');
+      var sidebar = document.querySelector('.sidebar');
+      var overlay = document.querySelector('.mobile-overlay');
+      btn.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+      });
+      overlay.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      });
+      document.querySelector('.theme-toggle').addEventListener('click', function() {
+        var d = document.documentElement;
+        var next = d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        d.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    })();
+  </script>
+</body>
+</html>

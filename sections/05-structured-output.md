@@ -1,6 +1,5 @@
 # 5. Structured Output — Machine Talks to Machine
 
-<!-- diagram:05-structured-output-diagram1
 ```
   Prompt: "Below is a list of restaurant reviews.
            Extract the details and structure
@@ -25,8 +24,6 @@
              "vegetarian_friendly": true
            }
 ```
--->
-![](../images/05-structured-output-diagram1.png)
 
 LLMs can produce more than flowing prose — they can generate highly structured data formats such as JSON or XML. Include the desired format in the prompt, and the model fills it in. Modern LLMs even offer constraint modes that *guarantee* the output conforms to a given structure, producing nothing else.
 

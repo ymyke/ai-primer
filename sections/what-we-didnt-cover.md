@@ -6,11 +6,11 @@ This primer focuses on the evolution from a plain LLM to autonomous agents — a
 
 - **RAG (Retrieval Augmented Generation)** — Most AI products you use at work — "chat with your documents," knowledge bases, support bots — retrieve relevant text at runtime and inject it into the prompt. The model only knows its training data; RAG gives it access to yours.
 
-- **Trusting the Output** — LLMs hallucinate facts, fabricate sources, and confirm whatever biases are already present — all with the same confident tone. The verification rule: if you can't verify the output, don't automate the task.
+- **Trusting the Output** — LLMs hallucinate facts, fabricate sources, and confirm whatever biases are already present — all with the same confident tone. Don't get "fooled by fluency".
 
 - **Security & Risks** — Prompt injection is an unsolved problem: content the AI reads can hijack its behavior. Agents with access to your email, calendar, and files can do real damage if manipulated. The principle of least privilege applies.
 
-- **Routing** — Not every request needs the most powerful model. In practice, 80% of tasks can be handled by smaller, cheaper, faster models. Matching tasks to the right model is a discipline of its own.
+- **Routing** — Not every request needs the most powerful model. In practice, many tasks can be handled by smaller, cheaper, faster models. Matching tasks to the right model is a discipline of its own.
 
 ---
 
@@ -22,4 +22,4 @@ When ChatGPT explains biology "correctly," it's because the explanation existed 
 
 ---
 
-*This primer is a work in progress. If something is unclear, missing, or wrong — or if you have a better example or analogy — contributions and feedback are welcome.*
+*This primer is a work in progress. If something is unclear, missing, or wrong — or if you have a better example or analogy — contributions and feedback are welcome in the [GitHub repo](https://github.com/ymyke/ai-primer).*

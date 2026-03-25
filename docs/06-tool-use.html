@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>6. Tool Use — AI Primer</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <script>(function(){var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t)})();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --font-display: 'Outfit', system-ui, sans-serif;
+      --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+      --font-code: 'Fira Code', Consolas, monospace;
+
+      --bg: #ffffff;
+      --fg: #171717;
+      --fg-muted: #6b7280;
+      --fg-faint: #b0b6bf;
+      --accent: #4f46e5;
+      --accent-hover: #4338ca;
+      --border: #f0f0f0;
+      --code-bg: #f8f8f9;
+      --sidebar-w: 240px;
+      --content-max: 640px;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0a0a0a;
+      --fg: #e5e5e5;
+      --fg-muted: #999;
+      --fg-faint: #555;
+      --accent: #a78bfa;
+      --accent-hover: #c4b5fd;
+      --border: #1e1e1e;
+      --code-bg: #111111;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.75;
+      font-size: 1rem;
+      display: flex;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- Progress --- */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 1px;
+      width: 0%;
+      background: var(--accent);
+      z-index: 1000;
+      transition: width 0.15s linear;
+    }
+
+    /* --- Sidebar --- */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-width: var(--sidebar-w);
+      background: var(--bg);
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 2.5rem 1.5rem 1.25rem;
+    }
+
+    .sidebar-top {
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar-logo {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--fg);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      transition: color 0.15s ease;
+    }
+
+    .sidebar-logo:hover { color: var(--accent); text-decoration: none; }
+
+    .logo-mark { font-family: var(--font-code); letter-spacing: -0.2em; margin-right: 0.3em; }
+
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--fg-faint);
+      padding: 0.25rem;
+      display: flex;
+      align-items: center;
+      transition: color 0.15s ease;
+    }
+
+    .theme-toggle:hover { color: var(--fg); }
+    .theme-toggle svg { width: 15px; height: 15px; }
+
+    html[data-theme="light"] .icon-sun { display: none; }
+    html[data-theme="dark"] .icon-moon { display: none; }
+
+    .sidebar-links { padding: 0; flex: 1; }
+
+    .sidebar-links a {
+      display: flex;
+      align-items: baseline;
+      gap: 0.2rem;
+      padding: 0.3rem 1.5rem;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      color: var(--fg-muted);
+      text-decoration: none;
+      line-height: 1.6;
+      transition: color 0.15s ease;
+    }
+
+    .sidebar-links a:hover {
+      color: var(--fg);
+      text-decoration: none;
+    }
+
+    .sidebar-links a.active {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    .ch-num {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--fg-faint);
+    }
+
+    .sidebar-links a.active .ch-num { color: var(--accent); }
+
+    .sidebar-footer {
+      padding: 1rem 1.5rem;
+    }
+
+    /* --- Mobile menu --- */
+    .mobile-menu-btn {
+      display: none;
+      position: fixed;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 200;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      width: 2.25rem;
+      height: 2.25rem;
+      cursor: pointer;
+      color: var(--fg-muted);
+      font-size: 0;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu-btn svg { width: 16px; height: 16px; }
+
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+      z-index: 50;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    /* --- Content --- */
+    .content {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      padding: 2.5rem 4rem;
+      max-width: calc(var(--content-max) + 8rem);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* --- Typography --- */
+    h1 {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      line-height: 1.25;
+      margin: 0 0 2rem;
+      letter-spacing: -0.04em;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin: 3.5rem 0 1rem;
+      letter-spacing: -0.025em;
+    }
+
+    h3 {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.4;
+      margin: 2.5rem 0 0.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    p { margin: 1rem 0; }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-thickness: 1px;
+    }
+
+    strong { font-weight: 600; }
+
+    /* --- Code & Diagrams --- */
+    code {
+      font-family: var(--font-code);
+      font-size: 0.85em;
+      background: var(--code-bg);
+      padding: 0.15em 0.35em;
+      border-radius: 4px;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      margin: 1.75rem 0;
+      line-height: 1.45;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      font-size: 0.85rem;
+      line-height: inherit;
+      display: block;
+    }
+
+    /* --- Blockquotes --- */
+    blockquote {
+      border-left: 2px solid var(--border);
+      padding-left: 1.25rem;
+      margin: 1.5rem 0;
+      color: var(--fg-muted);
+    }
+
+    blockquote p { margin: 0.5rem 0; }
+
+    /* --- Tables --- */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.88rem;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--fg-muted);
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    /* --- Lists --- */
+    ul, ol { margin: 1rem 0; padding-left: 1.5rem; }
+    li { margin: 0.35rem 0; }
+    li::marker { color: var(--fg-faint); }
+
+    /* --- Misc --- */
+    hr { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+    img { max-width: 100%; height: auto; margin: 1.5rem 0; }
+
+    /* --- Prev/Next --- */
+    .prev-next {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+    }
+
+    .prev-next a {
+      max-width: 48%;
+      color: var(--fg-muted);
+      font-weight: 500;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .prev-next a:hover { color: var(--accent); background: var(--code-bg); text-decoration: none; }
+
+    /* --- Scrollbar --- */
+    ::-webkit-scrollbar { width: 0px; }
+    ::selection { background: var(--accent); color: #fff; }
+
+    /* --- Mobile --- */
+    @media (max-width: 860px) {
+      .mobile-menu-btn { display: flex; }
+      .mobile-overlay { display: block; }
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        background: var(--bg);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 2px 0 24px rgba(0,0,0,0.06);
+      }
+
+      .mobile-overlay.open { opacity: 1; }
+
+      .content {
+        margin-left: 0;
+        padding: 2rem 1.5rem;
+        padding-top: 4rem;
+        max-width: 100%;
+      }
+
+      h1 { font-size: 1.5rem; }
+    }
+
+    @media print {
+      .sidebar, .mobile-menu-btn, .progress-bar, .prev-next, .mobile-overlay { display: none !important; }
+      .content { margin-left: 0; max-width: 100%; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar"></div>
+  <div class="mobile-overlay"></div>
+  <button class="mobile-menu-btn" aria-label="Toggle navigation">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <a href="index.html" class="sidebar-logo"><span class="logo-mark">·&gt;</span> AI Primer</a>
+    </div>
+    <div class="sidebar-links">
+      <a href="01-plain-llm.html"><span class="ch-num">1.</span>The Plain LLM</a>
+<a href="02-multimodality.html"><span class="ch-num">2.</span>Multimodality</a>
+<a href="03-chatbot.html"><span class="ch-num">3.</span>The Chatbot</a>
+<a href="04-system-prompt.html"><span class="ch-num">4.</span>The System Prompt</a>
+<a href="05-structured-output.html"><span class="ch-num">5.</span>Structured Output</a>
+<a href="06-tool-use.html" class="active"><span class="ch-num">6.</span>Tool Use</a>
+<a href="07-agentic-loop.html"><span class="ch-num">7.</span>The Agentic Loop</a>
+<a href="08-multi-agent.html"><span class="ch-num">8.</span>Multi-Agent</a>
+<a href="09-context-engineering.html"><span class="ch-num">9.</span>Context Engineering</a>
+<a href="what-we-didnt-cover.html">What We Didn't Cover</a>
+    </div>
+    <div class="sidebar-footer">
+      <button class="theme-toggle" aria-label="Toggle theme">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </button>
+    </div>
+  </nav>
+  <main class="content">
+    <article><h1>6. Tool Use — Acting on the World</h1>
+<pre><code>  ┌──────────────────────────────────────────────────────┐
+  │  System prompt:                                      │
+  │  &quot;You are a helpful assistant.&quot;                      │
+  │                                                      │
+  │  Available tools:                                    │
+  │    get_weather(city: string) → weather data          │
+  │    web_search(query: string) → search results        │
+  ├──────────────────────────────────────────────────────┤
+  │  User: &quot;What's the weather in Tokyo?&quot;                │
+  └─────────────────────────┬────────────────────────────┘
+                            │
+                            ▼
+                     ┌─────────────┐
+                     │     LLM     │
+                     └─────────────┘
+                            │
+            Tool call: get_weather(city=&quot;Tokyo&quot;)
+                            │
+                            ▼
+                   ┌─────────────────┐
+                   │  Application    │
+                   │  executes tool  │
+                   └────────┬────────┘
+                            │
+                            ▼
+         Result: { temp: &quot;28°C&quot;, condition: &quot;humid&quot; }
+                            │
+                            ▼
+                     ┌─────────────┐
+                     │     LLM     │
+                     └─────────────┘
+                            │
+                            ▼
+        &quot;It's currently 28°C and humid in Tokyo.&quot;
+</code></pre>
+<p><strong>Behind the scenes — what the LLM sees at each step:</strong></p>
+<pre><code>Step 1:  [system: &quot;You are a helpful assistant.&quot;,
+          tools: [get_weather, web_search],
+          user: &quot;What's the weather in Tokyo?&quot;]
+              → LLM responds with: tool_call: get_weather(city=&quot;Tokyo&quot;)
+
+Step 2:  [system: &quot;...&quot;, tools: [...],
+          user: &quot;What's the weather in Tokyo?&quot;,
+          assistant: tool_call: get_weather(city=&quot;Tokyo&quot;),
+          tool: { temp: &quot;28°C&quot;, condition: &quot;humid&quot; }]
+              → LLM responds with: &quot;It's currently 28°C and humid in Tokyo.&quot;
+</code></pre>
+<p>The LLM doesn't execute tools itself. It only decides <em>which</em> tool to call with <em>which</em> parameters. The application around the LLM performs the actual call and feeds the result back.</p>
+<p>Tool definitions are just text in the context window — typically part of the system prompt. The model has learned to recognize this format and generate matching structured calls.</p>
+<p><strong>Typical tools:</strong> Web search, database queries, API calls, file operations, email access, CRM access, code execution.</p>
+<p>Code execution deserves a closer look. Most tools let the model fetch or manipulate information in the outside world — search the web, query a database, send an email. Code execution is different — it lets the model <em>compute</em>, compensating for weaknesses built into how LLMs work.</p>
+<p><strong>Why code execution stands out:</strong> Remember the strawberry problem from section 1? The model can't count letters in &quot;strawberry&quot; because it never sees individual letters — only tokens. But give the model a code execution tool, and it writes <code>'strawberry'.count('r')</code> — correct, every time. You can often trigger this simply by asking the model to &quot;use code.&quot; The model didn't get smarter. It got a calculator. The same applies to arithmetic, date calculations, sorting, and anything else where precise computation beats pattern matching. This is why the <em>same model</em> gives better answers in a product that has code execution than in one that doesn't.</p>
+<p>There's a second reason code execution matters. Ask an LLM to perform a task — say, extract data from a document — and run it 100 times. You'll get dozens of slightly different results, some with small variations, some with large ones. Now ask the LLM to write a small program that performs the same task, and run <em>that</em> 100 times. The results are identical every time. Code execution lets the model move from probabilistic to deterministic — from &quot;roughly right, differently each time&quot; to &quot;exactly right, every time.&quot;</p>
+<p>Tool integrations are increasingly standardized through protocols like <strong>MCP (Model Context Protocol)</strong>, which aim to make tools portable across different AI systems — define the tool once, use it with any model.</p>
+</article>
+    <div class="prev-next">
+      <div><a href="05-structured-output.html">← 5. Structured Output</a></div>
+      <div><a href="07-agentic-loop.html">7. The Agentic Loop →</a></div>
+    </div>
+  </main>
+  <script>
+    (function() {
+      var bar = document.querySelector('.progress-bar');
+      window.addEventListener('scroll', function() {
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = h > 0 ? (window.scrollY / h * 100) + '%' : '0%';
+      });
+      var btn = document.querySelector('.mobile-menu-btn');
+      var sidebar = document.querySelector('.sidebar');
+      var overlay = document.querySelector('.mobile-overlay');
+      btn.addEventListener('click', function() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+      });
+      overlay.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      });
+      document.querySelector('.theme-toggle').addEventListener('click', function() {
+        var d = document.documentElement;
+        var next = d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        d.setAttribute('data-theme', next);
+        localStorage.setItem('theme', next);
+      });
+    })();
+  </script>
+</body>
+</html>
