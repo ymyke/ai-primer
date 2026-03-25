@@ -189,10 +189,9 @@ def main():
         shutil.rmtree(DOCS_DIR, ignore_errors=True)
     DOCS_DIR.mkdir(exist_ok=True)
 
-    # Copy favicon
     # Copy static files
     for name in ["favicon.svg", "CNAME", "style.css"]:
-        with open(ROOT / name) as src, open(DOCS_DIR / name, "w") as dst:
+        with open(ROOT / "static" / name) as src, open(DOCS_DIR / name, "w") as dst:
             dst.write(src.read())
 
     # Build each page from toc
