@@ -41,11 +41,12 @@ def fix_internal_links(html, pages):
     for _, path in pages:
         md_name = os.path.basename(path)
         html_name = md_name.replace('.md', '.html')
+        href = '/' if html_name == 'index.html' else html_name
         # Match both markdown-style (name) and HTML href="name"
-        html = html.replace(f'({md_name})', f'({html_name})')
-        html = html.replace(f'({path})', f'({html_name})')
-        html = html.replace(f'"{md_name}"', f'"{html_name}"')
-        html = html.replace(f'"{path}"', f'"{html_name}"')
+        html = html.replace(f'({md_name})', f'({href})')
+        html = html.replace(f'({path})', f'({href})')
+        html = html.replace(f'"{md_name}"', f'"{href}"')
+        html = html.replace(f'"{path}"', f'"{href}"')
     return html
 
 
@@ -59,6 +60,11 @@ def html_name_for(path):
     return os.path.basename(path).replace('.md', '.html')
 
 
+def href_for(path):
+    name = html_name_for(path)
+    return '/' if name == 'index.html' else name
+
+
 def build_sidebar(pages, current_idx):
     """Build sidebar navigation HTML with chapter numbers."""
     items = []
@@ -66,7 +72,7 @@ def build_sidebar(pages, current_idx):
         # Skip index — the sidebar logo already links home
         if os.path.basename(path) == 'index.md':
             continue
-        href = html_name_for(path)
+        href = href_for(path)
         cls = ' class="active"' if i == current_idx else ''
         basename = os.path.basename(path)
         num_match = re.match(r'(\d+)-', basename)
@@ -80,7 +86,7 @@ def build_sidebar(pages, current_idx):
             )
         else:
             items.append(f'<a href="{href}"{cls}>{title}</a>')
-    items.append('<a href="index.html" class="sidebar-about">About</a>')
+    items.append('<a href="/" class="sidebar-about">About</a>')
     return '\n'.join(items)
 
 
@@ -90,10 +96,10 @@ def build_prev_next(pages, current_idx):
     next_html = ''
     if current_idx > 0:
         t, p = pages[current_idx - 1]
-        prev_html = f'<a href="{html_name_for(p)}">← {t}</a>'
+        prev_html = f'<a href="{href_for(p)}">← {t}</a>'
     if current_idx < len(pages) - 1:
         t, p = pages[current_idx + 1]
-        next_html = f'<a href="{html_name_for(p)}">{t} →</a>'
+        next_html = f'<a href="{href_for(p)}">{t} →</a>'
     return prev_html, next_html
 
 
@@ -130,7 +136,7 @@ TEMPLATE = """\
   </button>
   <nav class="sidebar">
     <div class="sidebar-header">
-      <a href="index.html" class="sidebar-logo">{brand}</a>
+      <a href="/" class="sidebar-logo">{brand}</a>
     </div>
     <div class="sidebar-links">
       {sidebar}
@@ -244,7 +250,7 @@ def main():
             sidebar=sidebar,
             content=content,
             prev='',
-            next=f'<a href="{html_name_for(pages[1][1])}">{pages[1][0]} →</a>',
+            next=f'<a href="{href_for(pages[1][1])}">{pages[1][0]} →</a>',
         )
         with open(DOCS_DIR / "index.html", 'w') as f:
             f.write(html)
