@@ -552,9 +552,10 @@ def main():
     DOCS_DIR.mkdir(exist_ok=True)
 
     # Copy favicon
-    # Copy favicon
-    with open(ROOT / "favicon.svg") as src, open(DOCS_DIR / "favicon.svg", "w") as dst:
-        dst.write(src.read())
+    # Copy static files
+    for name in ["favicon.svg", "CNAME"]:
+        with open(ROOT / name) as src, open(DOCS_DIR / name, "w") as dst:
+            dst.write(src.read())
 
     # Build each page from toc
     for i, (title, path) in enumerate(pages):
