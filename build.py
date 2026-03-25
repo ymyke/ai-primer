@@ -97,6 +97,18 @@ def build_prev_next(pages, current_idx):
     return prev_html, next_html
 
 
+def build_brand_lockup(extra_class=''):
+    classes = "logo-mark"
+    if extra_class:
+        classes += f" {extra_class}"
+    return f'aiaiai<span class="{classes}">·&gt;</span>'
+
+
+def strip_first_h1(html):
+    """Remove the first H1 from rendered HTML."""
+    return re.sub(r'<h1>.*?</h1>\s*', '', html, count=1, flags=re.DOTALL)
+
+
 TEMPLATE = """\
 <!DOCTYPE html>
 <html lang="en">
@@ -186,7 +198,17 @@ TEMPLATE = """\
 
     .sidebar-logo:hover {{ color: var(--accent); text-decoration: none; }}
 
-    .logo-mark {{ font-family: var(--font-code); letter-spacing: -0.2em; margin-left: 0.2em; }}
+    .logo-mark {{
+      display: inline-block;
+      font-family: var(--font-code);
+      letter-spacing: -0.2em;
+      margin-left: -0.02em;
+    }}
+
+    .title-logo-mark {{
+      margin-left: 0.05em;
+      margin-right: 0.62em;
+    }}
 
 
     .theme-toggle {{
@@ -484,7 +506,7 @@ TEMPLATE = """\
   </button>
   <nav class="sidebar">
     <div class="sidebar-header">
-      <a href="index.html" class="sidebar-logo">AI Primer <span class="logo-mark">·&gt;</span></a>
+      <a href="index.html" class="sidebar-logo">{brand}</a>
     </div>
     <div class="sidebar-links">
       {sidebar}
@@ -497,7 +519,7 @@ TEMPLATE = """\
     </div>
   </nav>
   <main class="content">
-    <article>{content}</article>
+    <article>{hero_title}{content}</article>
     <div class="prev-next">
       <div>{prev}</div>
       <div>{next}</div>
@@ -569,6 +591,8 @@ def main():
 
         html = TEMPLATE.format(
             title=title,
+            brand=build_brand_lockup(),
+            hero_title='',
             sidebar=sidebar,
             content=content,
             prev=prev,
@@ -587,10 +611,13 @@ def main():
             md_text = f.read()
         content = render_page(md_text)
         content = fix_internal_links(content, pages)
+        content = strip_first_h1(content)
         sidebar = build_sidebar(pages, -1)
 
         html = TEMPLATE.format(
             title="AI Primer",
+            brand=build_brand_lockup(),
+            hero_title=f"<h1>{build_brand_lockup('title-logo-mark')}AI Primer</h1>",
             sidebar=sidebar,
             content=content,
             prev='',

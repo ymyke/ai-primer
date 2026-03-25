@@ -86,7 +86,17 @@
 
     .sidebar-logo:hover { color: var(--accent); text-decoration: none; }
 
-    .logo-mark { font-family: var(--font-code); letter-spacing: -0.2em; margin-left: 0.2em; }
+    .logo-mark {
+      display: inline-block;
+      font-family: var(--font-code);
+      letter-spacing: -0.2em;
+      margin-left: -0.02em;
+    }
+
+    .title-logo-mark {
+      margin-left: 0.05em;
+      margin-right: 0.62em;
+    }
 
 
     .theme-toggle {
@@ -384,7 +394,7 @@
   </button>
   <nav class="sidebar">
     <div class="sidebar-header">
-      <a href="index.html" class="sidebar-logo">AI Primer <span class="logo-mark">·&gt;</span></a>
+      <a href="index.html" class="sidebar-logo">aiaiai<span class="logo-mark">·&gt;</span></a>
     </div>
     <div class="sidebar-links">
       <a href="01-plain-llm.html"><span class="ch-num">1.</span>The Plain LLM</a>
@@ -407,8 +417,7 @@
     </div>
   </nav>
   <main class="content">
-    <article><h1>AI Primer</h1>
-<p><em>Under the hood of the AI systems you use every day.</em></p>
+    <article><h1>aiaiai<span class="logo-mark title-logo-mark">·&gt;</span>AI Primer</h1><p><em>Under the hood of the AI systems you use every day.</em></p>
 <p>You've been using ChatGPT, Claude, or Gemini long enough to have intuitions — what works, what doesn't, when the model seems brilliant and when it falls apart. But the system behind the text box is still a mystery.</p>
 <p>This primer opens it up. Nine short chapters, each building on the last: how a text predictor becomes a chatbot. How a chatbot gains tools. How tools enable autonomous agents. And the finite context window that governs them all.</p>
 <hr />
