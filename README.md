@@ -1,4 +1,4 @@
-# ·> AI Primer
+# AI Primer ·>
 
 *Under the hood of the AI systems you use every day.*
 
