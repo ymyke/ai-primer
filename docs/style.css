@@ -356,7 +356,8 @@ img { max-width: 100%; height: auto; margin: 1.5rem 0; }
     box-shadow: 2px 0 24px rgba(0,0,0,0.06);
   }
 
-  .mobile-overlay.open { opacity: 1; }
+  .mobile-overlay { pointer-events: none; }
+  .mobile-overlay.open { opacity: 1; pointer-events: auto; }
 
   .content {
     margin-left: 0;
@@ -366,6 +367,21 @@ img { max-width: 100%; height: auto; margin: 1.5rem 0; }
   }
 
   h1 { font-size: 1.5rem; }
+
+  /* Full-bleed code blocks for maximum diagram width */
+  pre {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    border-radius: 0;
+    padding: 1rem 1.25rem;
+  }
+
+  pre code { font-size: 0.75rem; }
+
+  /* Show horizontal scrollbar so users know diagrams are scrollable */
+  pre::-webkit-scrollbar { display: block; height: 3px; }
+  pre::-webkit-scrollbar-thumb { background: var(--fg-faint); border-radius: 2px; }
+  pre::-webkit-scrollbar-track { background: transparent; }
 }
 
 @media print {
